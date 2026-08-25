@@ -1,6 +1,7 @@
 import DefaultTheme from 'vitepress/theme'
 import { h } from 'vue'
 import HarnessBackground from './HarnessBackground.vue'
+import HeroLogo from './HeroLogo.vue'
 import './custom.css'
 
 export default {
@@ -8,6 +9,8 @@ export default {
   Layout: () =>
     h(DefaultTheme.Layout, null, {
       // 仅首页（layout: home）渲染：DeepSeek Harness 风格流体背景 + 交互点阵
-      'home-hero-before': () => h(HarnessBackground)
+      'home-hero-before': () => h(HarnessBackground),
+      // 首页 hero 右侧动态小马 logo
+      'home-hero-image': () => h(HeroLogo)
     })
 }

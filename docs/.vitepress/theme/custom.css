@@ -188,6 +188,42 @@ body,
   border-color: rgba(255, 255, 255, 0.3) !important;
 }
 
+/* Hero 右侧动态 logo 布局 */
+.VPHero .container {
+  gap: 2rem;
+}
+
+.VPHero .main {
+  max-width: 560px;
+}
+
+.VPHero .image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 240px;
+}
+
+.VPHero .image .image-container {
+  transform: none !important;
+}
+
+@media (max-width: 960px) {
+  .VPHero .container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .VPHero .main {
+    max-width: 100%;
+  }
+
+  .VPHero .image {
+    order: -1;
+    margin-bottom: 1rem;
+  }
+}
+
 /* 6. 搜索框 */
 .VPSearch .prompt,
 .VPSearch .input {
