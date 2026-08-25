@@ -1,0 +1,79 @@
+/* 自定义样式 - 覆盖 VitePress 默认主题 */
+
+/* 首页 Hero 区域背景美化 */
+.VPHero .name,
+.VPHero .text {
+  background: linear-gradient(120deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Hero 区域整体背景 */
+.VPHero {
+  position: relative;
+  overflow: hidden;
+  padding: 6rem 0;
+}
+
+/* 动态光点背景效果 */
+.VPHero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.15) 0%, transparent 40%),
+              radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.15) 0%, transparent 40%),
+              radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.1) 0%, transparent 50%);
+  animation: float 20s infinite linear;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* 网格背景叠加 */
+.VPHero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(to right, rgba(139, 92, 246, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(139, 92, 246, 0.08) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* 确保内容在背景之上 */
+.VPHero .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* 按钮样式优化 */
+.VPHero .VPButton {
+  backdrop-filter: blur(8px);
+}
+
+/* 光点动画 */
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  33% { transform: translate(30px, -30px) rotate(10deg); }
+  66% { transform: translate(-20px, 20px) rotate(-10deg); }
+}
+
+/* 暗色模式适配 */
+html.dark .VPHero::before {
+  background: radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.2) 0%, transparent 40%),
+              radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.2) 0%, transparent 40%),
+              radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.15) 0%, transparent 50%);
+}
+
+html.dark .VPHero::after {
+  background-image: 
+    linear-gradient(to right, rgba(139, 92, 246, 0.1) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(139, 92, 246, 0.1) 1px, transparent 1px);
+}

@@ -41,12 +41,38 @@ export default defineConfig({
       }
     ],
 
-    // 侧边栏：按目录分组，便于按主题组织文章
+    // 侧边栏：支持多级嵌套，实现树状折叠分类
     sidebar: [
       {
         text: '入门',
         items: [
           { text: '第一篇博客', link: '/第一篇' }
+        ]
+      },
+      {
+        text: '后端技术',
+        // 一级分类下可以继续嵌套二级分类
+        items: [
+          {
+            text: 'Java',
+            items: [
+              { text: 'JVM 基础', link: '/java/jvm-basics' },
+              { text: '并发编程', link: '/java/concurrent' }
+            ]
+          },
+          {
+            text: 'Spring',
+            items: [
+              { text: 'Spring Boot 原理', link: '/spring/boot' }
+            ]
+          }
+        ]
+      },
+      {
+        text: '中间件',
+        items: [
+          { text: 'Redis', link: '/middleware/redis' },
+          { text: '消息队列', link: '/middleware/mq' }
         ]
       }
     ],
