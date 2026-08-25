@@ -1,28 +1,54 @@
 import DefaultTheme from 'vitepress/theme'
 import './custom.css'
 
-// 全局粒子效果 - 注入到 body，覆盖整个视口
-function initGlobalParticles() {
+/**
+ * 页面类型检测：根据 .VPHero 是否存在判断是否为首页
+ * 首页：添加 home-page class 启用极光背景 + 粒子
+ * 其他页面：移除 home-page class，使用干净深色背景
+ */
+function detectAndSetPageType() {
   if (typeof window === 'undefined') return
 
-  // 注入全局粒子画布（fixed 定位，覆盖整个视口）
-  const inject = () => {
-    if (document.querySelector('.aurora-particles')) return
-    const canvas = document.createElement('canvas')
-    canvas.className = 'aurora-particles'
-    document.body.appendChild(canvas)
-    startParticleAnimation(canvas)
-  }
+  const html = document.documentElement
+  const isHomePage = !!document.querySelector('.VPHero')
 
-  inject()
-  setTimeout(inject, 300)
-  setTimeout(inject, 1000)
+  if (isHomePage) {
+    html.classList.add('home-page')
+    ensureParticles()
+  } else {
+    html.classList.remove('home-page')
+    removeParticles()
+  }
 }
 
-// Canvas 粒子动画
+/**
+ * 确保粒子画布存在（仅首页）
+ */
+function ensureParticles() {
+  if (document.querySelector('.aurora-particles')) return
+  const canvas = document.createElement('canvas')
+  canvas.className = 'aurora-particles'
+  document.body.appendChild(canvas)
+  startParticleAnimation(canvas)
+}
+
+/**
+ * 移除粒子画布（切换到非首页时）
+ */
+function removeParticles() {
+  const canvas = document.querySelector('.aurora-particles')
+  if (canvas) {
+    canvas.remove()
+  }
+}
+
+/**
+ * Canvas 粒子动画
+ */
 function startParticleAnimation(canvas) {
   const ctx = canvas.getContext('2d')
   let particles = []
+  let running = true
 
   function resize() {
     const dpr = window.devicePixelRatio || 1
@@ -52,6 +78,7 @@ function startParticleAnimation(canvas) {
   }
 
   function animate() {
+    if (!running) return
     const w = window.innerWidth
     const h = window.innerHeight
     ctx.clearRect(0, 0, w, h)
@@ -59,7 +86,6 @@ function startParticleAnimation(canvas) {
     particles.forEach(p => {
       p.x += p.vx
       p.y += p.vy
-
       if (p.x < 0) p.x = w
       if (p.x > w) p.x = 0
       if (p.y < 0) p.y = h
@@ -106,6 +132,16 @@ function startParticleAnimation(canvas) {
 
   resize()
   animate()
+
+  // 当 canvas 被移除时停止动画
+  const observer = new MutationObserver(() => {
+    if (!document.body.contains(canvas)) {
+      running = false
+      observer.disconnect()
+    }
+  })
+  observer.observe(document.body, { childList: true })
+
   window.addEventListener('resize', () => {
     clearTimeout(window._particleResizeTimer)
     window._particleResizeTimer = setTimeout(resize, 200)
@@ -115,13 +151,37 @@ function startParticleAnimation(canvas) {
 export default {
   extends: DefaultTheme,
   enhanceApp() {
-    if (typeof window !== 'undefined') {
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initGlobalParticles)
-      } else {
-        initGlobalParticles()
-      }
-      window.addEventListener('hashchange', () => setTimeout(initGlobalParticles, 300))
+    if (typeof window === 'undefined') return
+
+    // 初始检测
+    const start = () => {
+      detectAndSetPageType()
+      // 延迟重试（VitePress 渲染可能需要时间）
+      setTimeout(detectAndSetPageType, 300)
+      setTimeout(detectAndSetPageType, 1000)
     }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', start)
+    } else {
+      start()
+    }
+
+    // 路由变化时重新检测
+    window.addEventListener('hashchange', () => {
+      setTimeout(detectAndSetPageType, 300)
+    })
+
+    // MutationObserver 监听 DOM 变化（VitePress SPA 路由切换）
+    const observer = new MutationObserver(() => {
+      // 只在 .VPApp 内容变化时检测
+      if (document.querySelector('.VPHero') || document.querySelector('.VPDoc')) {
+        detectAndSetPageType()
+      }
+    })
+    observer.observe(document.querySelector('.VPApp') || document.body, {
+      childList: true,
+      subtree: true
+    })
   }
 }

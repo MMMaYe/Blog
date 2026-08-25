@@ -1,15 +1,18 @@
 /* ========================================
-   全站 DeepSeek Harness 风格深色极光主题
+   DeepSeek Harness 风格深色极光主题
+   仅首页有极光背景，其他页面干净深色
    ======================================== */
 
-/* 1. 全局强制深色极光背景 - 覆盖整个站点 */
+/* 1. 基础背景 - 所有页面深色 */
 html,
-body {
+body,
+#app {
   background: #0a0a0a !important;
+  background-image: none !important;
   min-height: 100vh;
 }
 
-/* 2. 极光背景层 - 固定在视口，不随滚动移动 */
+/* 2. 极光背景层 - 仅首页 (.home-page) 启用 */
 html::before {
   content: '';
   position: fixed !important;
@@ -21,8 +24,13 @@ html::before {
   height: 100vh;
   z-index: 0;
   pointer-events: none;
+  background: transparent;
+  transition: background 0.5s ease;
+}
+
+/* 首页才启用极光背景 */
+html.home-page::before {
   background:
-    /* 主极光光带 - 顶部到底部流动 */
     linear-gradient(
       160deg,
       transparent 0%,
@@ -34,7 +42,6 @@ html::before {
       transparent 55%,
       transparent 100%
     ),
-    /* 第二道光带 */
     linear-gradient(
       140deg,
       transparent 0%,
@@ -45,12 +52,11 @@ html::before {
       transparent 50%,
       transparent 100%
     ),
-    /* 大面积深色渐变 */
     linear-gradient(180deg, #0a0a0a 0%, #0d0d14 30%, #0f0f1a 60%, #0a0a0a 100%);
   animation: aurora-flow 30s ease-in-out infinite;
 }
 
-/* 3. 极光动画层 - 动态漂移 */
+/* 3. 极光动画层 - 仅首页启用 */
 html::after {
   content: '';
   position: fixed !important;
@@ -60,6 +66,11 @@ html::after {
   height: 140%;
   z-index: 0;
   pointer-events: none;
+  background: transparent;
+  transition: background 0.5s ease;
+}
+
+html.home-page::after {
   background:
     radial-gradient(
       ellipse 800px 400px at 20% 30%,
@@ -83,27 +94,46 @@ html::after {
 }
 
 @keyframes aurora-flow {
-  0%, 100% {
-    transform: translate(0, 0) scale(1);
-  }
-  25% {
-    transform: translate(3%, -2%) scale(1.02);
-  }
-  50% {
-    transform: translate(-2%, 3%) scale(0.98);
-  }
-  75% {
-    transform: translate(2%, -1%) scale(1.01);
-  }
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(3%, -2%) scale(1.02); }
+  50% { transform: translate(-2%, 3%) scale(0.98); }
+  75% { transform: translate(2%, -1%) scale(1.01); }
 }
 
-/* 4. 主应用容器 - 在背景层之上 */
+/* 4. 非首页 - 隐藏极光伪元素 + 强制所有元素深色背景 */
+html:not(.home-page)::before,
+html:not(.home-page)::after {
+  display: none !important;
+}
+
+/* 非首页时，强制所有 VitePress 组件深色背景 */
+html:not(.home-page) .VPNavBar,
+html:not(.home-page) .VPSidebar,
+html:not(.home-page) .VPContent,
+html:not(.home-page) .VPFooter,
+html:not(.home-page) .VPDoc,
+html:not(.home-page) .VPDoc-main,
+html:not(.home-page) .VPDoc-footer,
+html:not(.home-page) .VPDocPage,
+html:not(.home-page) .VPPage,
+html:not(.home-page) .VPNotFound,
+html:not(.home-page) .VPDocPage-main,
+html:not(.home-page) .container {
+  background: #0a0a0a !important;
+}
+
+html:not(.home-page) body,
+html:not(.home-page) .VPApp {
+  background: #0a0a0a !important;
+}
+
+/* 5. 主应用容器 */
 .VPApp {
   position: relative;
   z-index: 1;
 }
 
-/* 5. 强制所有 VitePress 组件深色背景 */
+/* 6. 组件背景 - 透明（首页透出极光）/ 深色（非首页） */
 .VPNavBar,
 .VPSidebar,
 .VPContent,
@@ -220,12 +250,11 @@ html::after {
   border-color: rgba(255, 255, 255, 0.08) !important;
 }
 
-/* 分隔线 */
 .VPDoc-content hr {
   border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
-/* 6. Hero 区域 - 融入全局极光 */
+/* 7. Hero 区域 - 仅首页 */
 .VPHero {
   position: relative;
   overflow: hidden;
@@ -285,7 +314,7 @@ html::after {
   border-color: rgba(255, 255, 255, 0.3) !important;
 }
 
-/* 7. 搜索框 */
+/* 8. 搜索框 */
 .VPSearch .prompt,
 .VPSearch .input {
   background: rgba(255, 255, 255, 0.06) !important;
@@ -293,13 +322,13 @@ html::after {
   color: #e5e7eb !important;
 }
 
-/* 8. 页脚 */
+/* 9. 页脚 */
 .VPFooter {
   border-top: 1px solid rgba(255, 255, 255, 0.06);
   color: #9ca3af !important;
 }
 
-/* 9. 暗色模式变量覆盖 - 确保所有组件统一深色 */
+/* 10. 暗色模式变量 */
 :root {
   --vp-c-bg: #0a0a0a;
   --vp-c-bg-soft: #111118;
@@ -322,7 +351,6 @@ html::after {
   --vp-c-gpu-5: rgba(255, 255, 255, 0.2);
 }
 
-/* 暗色模式 */
 html.dark {
   --vp-c-bg: #0a0a0a;
   --vp-c-bg-soft: #111118;
@@ -338,32 +366,18 @@ html.dark {
   --vp-c-brand-3: #c4b5fd;
 }
 
-/* 10. 滚动条 */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
+/* 11. 滚动条 */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: #0a0a0a; }
+::-webkit-scrollbar-thumb { background: rgba(139, 92, 246, 0.3); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(139, 92, 246, 0.5); }
 
-::-webkit-scrollbar-track {
-  background: #0a0a0a;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(139, 92, 246, 0.3);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(139, 92, 246, 0.5);
-}
-
-/* 11. 选中文本颜色 */
 ::selection {
   background: rgba(139, 92, 246, 0.4);
   color: #fff;
 }
 
-/* 12. 粒子画布 - 全局 */
+/* 12. 粒子画布 - 仅首页 */
 .aurora-particles {
   position: fixed !important;
   top: 0;
