@@ -25,10 +25,28 @@ export default defineConfig({
     }
   },
 
+  // 在 <head> 中注入脚本：首页立刻强制暗色并标记 home-page，避免主题初始化闪烁
+  head: [
+    [
+      'script',
+      {},
+      `
+      (function() {
+        var p = location.pathname;
+        if (p === '/Blog/' || p === '/Blog' || p === '/Blog/index.html') {
+          var html = document.documentElement;
+          html.classList.add('dark');
+          html.classList.add('home-page');
+        }
+      })();
+      `
+    ]
+  ],
+
   // 默认主题配置
   themeConfig: {
-    // 强制默认暗色模式 - 与 DeepSeek Harness 风格一致
-    darkMode: 'dark',
+    // 启用暗/亮模式切换；首页通过主题脚本强制保持暗色
+    darkMode: true,
 
     // 站点标题旁边的 Logo（可替换为 public/ 下的图片）
     logo: '/logo.svg',

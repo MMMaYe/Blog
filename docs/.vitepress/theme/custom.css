@@ -1,18 +1,10 @@
 /* ========================================
    DeepSeek Harness 风格主题
-   背景/动效见 HarnessBackground.vue（WebGL 流体 + 交互点阵）
+   - 首页强制暗色
+   - 其他页面支持亮/暗模式切换
    ======================================== */
 
-/* 1. 基础背景 - 所有页面深色 #0a0a0a（与 harness 页面一致） */
-html,
-body,
-#app {
-  background: #0a0a0a !important;
-  background-image: none !important;
-  min-height: 100vh;
-}
-
-/* 2. 首页布局：hero 撑满首屏，背景层挂在 VPHome 内 */
+/* 1. 首页布局 */
 .VPHome {
   position: relative;
 }
@@ -30,7 +22,7 @@ body,
   z-index: 1;
 }
 
-/* 3. 组件背景透明（首页透出流体背景，其他页面即 #0a0a0a） */
+/* 2. 组件背景透明（让页面底色/背景层透出） */
 .VPNavBar,
 .VPSidebar,
 .VPContent,
@@ -46,69 +38,96 @@ body,
   background: transparent !important;
 }
 
+/* 3. 暗色模式变量：在 html.dark 与首页同时生效 */
+html.dark,
+.VPHome {
+  --vp-c-bg: #0a0a0a;
+  --vp-c-bg-soft: #111118;
+  --vp-c-bg-alt: #0f0f16;
+  --vp-c-bg-elv: #15151f;
+  --vp-c-border: rgba(255, 255, 255, 0.08);
+  --vp-c-divider: rgba(255, 255, 255, 0.06);
+  --vp-c-text-1: #e5e7eb;
+  --vp-c-text-2: #9ca3af;
+  --vp-c-text-3: #6b7280;
+  --vp-c-brand-1: #4d6bfe;
+  --vp-c-brand-2: #60a5fa;
+  --vp-c-brand-3: #93c5fd;
+  --vp-c-brand-soft: rgba(77, 107, 254, 0.15);
+}
+
+/* 4. 暗色模式背景 */
+html.dark,
+html.dark body,
+html.dark #app {
+  background: #0a0a0a !important;
+  background-image: none !important;
+  min-height: 100vh;
+}
+
 /* 导航栏 */
-.VPNavBar {
+html.dark .VPNavBar {
   backdrop-filter: blur(16px);
   background: rgba(10, 10, 10, 0.7) !important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.VPNavBar .title,
-.VPNavBar .content-body {
+html.dark .VPNavBar .title,
+html.dark .VPNavBar .content-body {
   color: #e5e7eb !important;
 }
 
 /* 侧边栏 */
-.VPSidebar {
+html.dark .VPSidebar {
   background: transparent !important;
   border-right: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.VPSidebar .curtain {
+html.dark .VPSidebar .curtain {
   background: transparent !important;
 }
 
-.VPSidebarItem .text,
-.VPSidebar .text,
-.VPSidebar a,
-.VPSidebar button {
+html.dark .VPSidebarItem .text,
+html.dark .VPSidebar .text,
+html.dark .VPSidebar a,
+html.dark .VPSidebar button {
   color: #9ca3af !important;
 }
 
-.VPSidebar .active > .text,
-.VPSidebar .is-active > .text {
+html.dark .VPSidebar .active > .text,
+html.dark .VPSidebar .is-active > .text {
   color: #fff !important;
 }
 
 /* 正文内容区 */
-.VPDoc-content,
-.VPDoc-content :is(h1, h2, h3, h4, h5, h6) {
+html.dark .VPDoc-content,
+html.dark .VPDoc-content :is(h1, h2, h3, h4, h5, h6) {
   color: #e5e7eb !important;
 }
 
-.VPDoc-content :is(p, li) {
+html.dark .VPDoc-content :is(p, li) {
   color: #d1d5db !important;
 }
 
-.VPDoc-content a {
+html.dark .VPDoc-content a {
   color: #60a5fa !important;
 }
 
-.VPDoc-content a:hover {
+html.dark .VPDoc-content a:hover {
   color: #93c5fd !important;
 }
 
 /* 代码块 */
-.VPDoc-content .language-bash,
-.VPDoc-content .language-java,
-.VPDoc-content [class*='language-'] {
+html.dark .VPDoc-content .language-bash,
+html.dark .VPDoc-content .language-java,
+html.dark .VPDoc-content [class*='language-'] {
   background: rgba(15, 15, 20, 0.85) !important;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 8px;
 }
 
 /* 内联代码 */
-.VPDoc-content code {
+html.dark .VPDoc-content code {
   background: rgba(255, 255, 255, 0.08) !important;
   color: #c4b5fd !important;
   border-radius: 4px;
@@ -116,53 +135,57 @@ body,
 }
 
 /* 引用块 */
-.VPDoc-content blockquote {
+html.dark .VPDoc-content blockquote {
   background: rgba(77, 107, 254, 0.08) !important;
   border-left: 3px solid #4d6bfe !important;
   color: #d1d5db !important;
 }
 
 /* 表格 */
-.VPDoc-content table {
+html.dark .VPDoc-content table {
   background: rgba(255, 255, 255, 0.03) !important;
   border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
-.VPDoc-content th {
+html.dark .VPDoc-content th {
   background: rgba(255, 255, 255, 0.05) !important;
   color: #e5e7eb !important;
 }
 
-.VPDoc-content td {
+html.dark .VPDoc-content td {
   color: #d1d5db !important;
   border-color: rgba(255, 255, 255, 0.08) !important;
 }
 
-.VPDoc-content hr {
+html.dark .VPDoc-content hr {
   border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
-/* 4. Hero 文案 - 纯白，贴近 harness 页面 */
-.VPHero .name {
+/* 5. Hero 文案 */
+html.dark .VPHero .name,
+.VPHome .VPHero .name {
   color: #f5f6f8 !important;
   -webkit-text-fill-color: #f5f6f8 !important;
   background: none !important;
   font-weight: 700 !important;
 }
 
-.VPHero .text {
+html.dark .VPHero .text,
+.VPHome .VPHero .text {
   color: #f5f6f8 !important;
   -webkit-text-fill-color: #f5f6f8 !important;
   background: none !important;
 }
 
-.VPHero .tagline {
+html.dark .VPHero .tagline,
+.VPHome .VPHero .tagline {
   color: rgba(203, 213, 225, 0.75) !important;
   font-size: 1.1rem !important;
 }
 
-/* 5. Hero 按钮 - DeepSeek 风格：主按钮白底黑字，次按钮玻璃拟态 */
-.VPHero .VPButton.brand {
+/* Hero 按钮 */
+html.dark .VPHero .VPButton.brand,
+.VPHome .VPHero .VPButton.brand {
   background: #ffffff !important;
   border: none !important;
   color: #0a0a0a !important;
@@ -170,12 +193,14 @@ body,
   transition: all 0.3s ease;
 }
 
-.VPHero .VPButton.brand:hover {
+html.dark .VPHero .VPButton.brand:hover,
+.VPHome .VPHero .VPButton.brand:hover {
   background: rgba(255, 255, 255, 0.88) !important;
   transform: translateY(-1px);
 }
 
-.VPHero .VPButton.alt {
+html.dark .VPHero .VPButton.alt,
+.VPHome .VPHero .VPButton.alt {
   background: rgba(255, 255, 255, 0.06) !important;
   border: 1px solid rgba(255, 255, 255, 0.2) !important;
   color: rgba(240, 240, 245, 0.95) !important;
@@ -183,12 +208,27 @@ body,
   transition: all 0.3s ease;
 }
 
-.VPHero .VPButton.alt:hover {
+html.dark .VPHero .VPButton.alt:hover,
+.VPHome .VPHero .VPButton.alt:hover {
   background: rgba(255, 255, 255, 0.12) !important;
   border-color: rgba(255, 255, 255, 0.3) !important;
 }
 
-/* Hero 右侧动态 logo 布局 */
+/* 6. 搜索框 */
+html.dark .VPSearch .prompt,
+html.dark .VPSearch .input {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  color: #e5e7eb !important;
+}
+
+/* 7. 页脚 */
+html.dark .VPFooter {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  color: #9ca3af !important;
+}
+
+/* 8. Hero 右侧动态 logo 布局 */
 .VPHero .container {
   gap: 2rem;
 }
@@ -208,6 +248,24 @@ body,
   transform: none !important;
 }
 
+/* 9. 首页：强制暗色并隐藏外观切换开关 */
+html.home-page .VPNavBar .VPSwitchAppearance,
+html.home-page .VPNavBar .VPSwitch {
+  display: none !important;
+}
+
+/* 10. 滚动条 - 暗色模式 */
+html.dark ::-webkit-scrollbar { width: 8px; height: 8px; }
+html.dark ::-webkit-scrollbar-track { background: #0a0a0a; }
+html.dark ::-webkit-scrollbar-thumb { background: rgba(77, 107, 254, 0.3); border-radius: 4px; }
+html.dark ::-webkit-scrollbar-thumb:hover { background: rgba(77, 107, 254, 0.5); }
+
+html.dark ::selection {
+  background: rgba(77, 107, 254, 0.4);
+  color: #fff;
+}
+
+/* 11. 响应式 */
 @media (max-width: 960px) {
   .VPHero .container {
     flex-direction: column;
@@ -222,67 +280,4 @@ body,
     order: -1;
     margin-bottom: 1rem;
   }
-}
-
-/* 6. 搜索框 */
-.VPSearch .prompt,
-.VPSearch .input {
-  background: rgba(255, 255, 255, 0.06) !important;
-  border-color: rgba(255, 255, 255, 0.15) !important;
-  color: #e5e7eb !important;
-}
-
-/* 7. 页脚 */
-.VPFooter {
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  color: #9ca3af !important;
-}
-
-/* 8. 暗色模式变量 */
-:root {
-  --vp-c-bg: #0a0a0a;
-  --vp-c-bg-soft: #111118;
-  --vp-c-bg-alt: #0f0f16;
-  --vp-c-bg-elv: #15151f;
-  --vp-c-border: rgba(255, 255, 255, 0.08);
-  --vp-c-divider: rgba(255, 255, 255, 0.06);
-  --vp-c-text-1: #e5e7eb;
-  --vp-c-text-2: #9ca3af;
-  --vp-c-text-3: #6b7280;
-  --vp-c-brand-1: #4d6bfe;
-  --vp-c-brand-2: #60a5fa;
-  --vp-c-brand-3: #93c5fd;
-  --vp-c-brand-soft: rgba(77, 107, 254, 0.15);
-  --vp-c-gpu-0: rgba(255, 255, 255, 0.02);
-  --vp-c-gpu-1: rgba(255, 255, 255, 0.05);
-  --vp-c-gpu-2: rgba(255, 255, 255, 0.08);
-  --vp-c-gpu-3: rgba(255, 255, 255, 0.12);
-  --vp-c-gpu-4: rgba(255, 255, 255, 0.16);
-  --vp-c-gpu-5: rgba(255, 255, 255, 0.2);
-}
-
-html.dark {
-  --vp-c-bg: #0a0a0a;
-  --vp-c-bg-soft: #111118;
-  --vp-c-bg-alt: #0f0f16;
-  --vp-c-bg-elv: #15151f;
-  --vp-c-border: rgba(255, 255, 255, 0.08);
-  --vp-c-divider: rgba(255, 255, 255, 0.06);
-  --vp-c-text-1: #e5e7eb;
-  --vp-c-text-2: #9ca3af;
-  --vp-c-text-3: #6b7280;
-  --vp-c-brand-1: #4d6bfe;
-  --vp-c-brand-2: #60a5fa;
-  --vp-c-brand-3: #93c5fd;
-}
-
-/* 9. 滚动条 */
-::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-track { background: #0a0a0a; }
-::-webkit-scrollbar-thumb { background: rgba(77, 107, 254, 0.3); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(77, 107, 254, 0.5); }
-
-::selection {
-  background: rgba(77, 107, 254, 0.4);
-  color: #fff;
 }
