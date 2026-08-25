@@ -1,0 +1,55 @@
+# VitePress 官方推荐的 GitHub Pages 部署工作流
+# 文档：https://vitepress.dev/zh/guide/deploy#github-pages
+name: Deploy VitePress site to Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+# 仅允许同一时间运行一个部署任务，避免旧部署覆盖新部署
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 需要完整历史，lastUpdated 才能正确读取提交时间
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build with VitePress
+        run: npm run build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/.vitepress/dist
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

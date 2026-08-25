@@ -1,0 +1,26 @@
+{
+  "name": "blog",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "个人技术博客 - 基于 VitePress 搭建",
+  "scripts": {
+    "dev": "vitepress dev docs",
+    "build": "vitepress build docs",
+    "preview": "vitepress preview docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MMMaYe/Blog.git"
+  },
+  "keywords": ["blog", "vitepress"],
+  "author": "MMMaYe",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MMMaYe/Blog/issues"
+  },
+  "homepage": "https://mmmaye.github.io/Blog/",
+  "devDependencies": {
+    "vitepress": "^1.6.4",
+    "vue": "^3.5.41"
+  }
+}
