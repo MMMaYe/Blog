@@ -1,33 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="40" height="40">
-  <defs>
-    <linearGradient id="maneGrad" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#4d6bfe"/>
-      <stop offset="1" stop-color="#7c9bff"/>
-    </linearGradient>
-  </defs>
-  <!-- 小马头部主体：面向左侧的白色填充剪影 -->
-  <path d="M22 54
-           C 28 46 38 42 48 40
-           C 52 32 58 26 66 22
-           C 70 14 74 10 78 14
-           C 82 18 82 24 80 28
-           C 90 34 98 44 102 56
-           C 106 70 102 86 92 96
-           C 80 108 62 108 48 100
-           C 36 92 28 80 24 68
-           C 20 62 20 58 22 54
-           Z" fill="#f5f6f8"/>
-  <!-- 鬃毛 -->
-  <path d="M66 22
-           C 74 24 82 30 88 38
-           C 94 48 96 60 92 72
-           C 86 64 82 54 78 44
-           C 74 36 70 28 66 22
-           Z" fill="url(#maneGrad)"/>
-  <!-- 颈部内侧曲线 -->
-  <path d="M28 72
-           C 38 78 48 88 56 96
-           C 48 100 38 98 32 90
-           C 28 84 26 78 28 72
-           Z" fill="url(#maneGrad)"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="40" height="40">
+  <!-- 抽象小马侧影：简洁流畅的轮廓，类似 DeepSeek 鲸鱼风格的白色剪影 -->
+  <path d="M10 34
+           C 12 28 15 23 19 19
+           C 20 15 22 12 26 11
+           C 29 10 32 11 34 13
+           L 36 9
+           L 38 12
+           L 36 16
+           C 37 18 37 20 35 22
+           C 33 23 31 22 29 21
+           C 27 23 25 23 23 22
+           C 21 24 19 26 18 29
+           C 17 31 16 33 15 35
+           C 13 35 11 34 10 34
+           Z" fill="#ffffff"/>
 </svg>

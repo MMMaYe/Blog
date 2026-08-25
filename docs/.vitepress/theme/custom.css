@@ -228,33 +228,13 @@ html.dark .VPFooter {
   color: #9ca3af !important;
 }
 
-/* 8. Hero 右侧动态 logo 布局 */
-.VPHero .container {
-  gap: 2rem;
-}
-
-.VPHero .main {
-  max-width: 560px;
-}
-
-.VPHero .image {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 240px;
-}
-
-.VPHero .image .image-container {
-  transform: none !important;
-}
-
-/* 9. 首页：强制暗色并隐藏外观切换开关 */
+/* 8. 首页：强制暗色并隐藏外观切换开关 */
 html.home-page .VPNavBar .VPSwitchAppearance,
 html.home-page .VPNavBar .VPSwitch {
   display: none !important;
 }
 
-/* 10. 滚动条 - 暗色模式 */
+/* 9. 滚动条 - 暗色模式 */
 html.dark ::-webkit-scrollbar { width: 8px; height: 8px; }
 html.dark ::-webkit-scrollbar-track { background: #0a0a0a; }
 html.dark ::-webkit-scrollbar-thumb { background: rgba(77, 107, 254, 0.3); border-radius: 4px; }
@@ -263,21 +243,4 @@ html.dark ::-webkit-scrollbar-thumb:hover { background: rgba(77, 107, 254, 0.5);
 html.dark ::selection {
   background: rgba(77, 107, 254, 0.4);
   color: #fff;
-}
-
-/* 11. 响应式 */
-@media (max-width: 960px) {
-  .VPHero .container {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .VPHero .main {
-    max-width: 100%;
-  }
-
-  .VPHero .image {
-    order: -1;
-    margin-bottom: 1rem;
-  }
 }
