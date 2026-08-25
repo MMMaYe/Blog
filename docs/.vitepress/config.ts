@@ -27,6 +27,9 @@ export default defineConfig({
 
   // 默认主题配置
   themeConfig: {
+    // 强制默认暗色模式 - 与 DeepSeek Harness 风格一致
+    darkMode: 'dark',
+
     // 站点标题旁边的 Logo（可替换为 public/ 下的图片）
     logo: '/logo.svg',
 

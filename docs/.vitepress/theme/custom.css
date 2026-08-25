@@ -1,18 +1,59 @@
-/* 自定义样式 - 参考 DeepSeek Harness 深色极光风格 */
+/* ========================================
+   全站 DeepSeek Harness 风格深色极光主题
+   ======================================== */
 
-/* Hero 区域整体背景 - 深色渐变 + 最小高度 */
-.VPHero {
-  position: relative;
-  overflow: hidden;
-  padding: 8rem 0 6rem;
-  min-height: 70vh;
-  background: linear-gradient(180deg, #0c1220 0%, #111827 30%, #1e1b4b 60%, #0c1220 100%);
+/* 1. 全局强制深色极光背景 - 覆盖整个站点 */
+html,
+body {
+  background: #0a0a0a !important;
+  min-height: 100vh;
 }
 
-/* 极光束光带 - 增强版，更明显的极光流动 */
-.VPHero::before {
+/* 2. 极光背景层 - 固定在视口，不随滚动移动 */
+html::before {
   content: '';
-  position: absolute;
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    /* 主极光光带 - 顶部到底部流动 */
+    linear-gradient(
+      160deg,
+      transparent 0%,
+      transparent 5%,
+      rgba(30, 41, 89, 0.3) 15%,
+      rgba(59, 130, 246, 0.15) 25%,
+      rgba(139, 92, 246, 0.12) 35%,
+      rgba(139, 92, 246, 0.06) 45%,
+      transparent 55%,
+      transparent 100%
+    ),
+    /* 第二道光带 */
+    linear-gradient(
+      140deg,
+      transparent 0%,
+      transparent 10%,
+      rgba(15, 23, 42, 0.5) 20%,
+      rgba(30, 58, 138, 0.2) 30%,
+      rgba(99, 102, 241, 0.1) 40%,
+      transparent 50%,
+      transparent 100%
+    ),
+    /* 大面积深色渐变 */
+    linear-gradient(180deg, #0a0a0a 0%, #0d0d14 30%, #0f0f1a 60%, #0a0a0a 100%);
+  animation: aurora-flow 30s ease-in-out infinite;
+}
+
+/* 3. 极光动画层 - 动态漂移 */
+html::after {
+  content: '';
+  position: fixed !important;
   top: -20%;
   left: -20%;
   width: 140%;
@@ -20,96 +61,179 @@
   z-index: 0;
   pointer-events: none;
   background:
-    /* 光带 1：主极光 - 蓝色 */
-    linear-gradient(
-      110deg,
-      transparent 0%,
-      transparent 15%,
-      transparent 25%,
-      rgba(59, 130, 246, 0.12) 35%,
-      rgba(59, 130, 246, 0.35) 45%,
-      rgba(139, 92, 246, 0.25) 55%,
-      rgba(139, 92, 246, 0.1) 65%,
-      transparent 75%,
-      transparent 100%
-    ),
-    /* 光带 2：副极光 - 紫色 */
-    linear-gradient(
-      70deg,
-      transparent 0%,
-      transparent 20%,
-      transparent 35%,
-      rgba(167, 139, 250, 0.15) 45%,
-      rgba(139, 92, 246, 0.3) 55%,
-      rgba(99, 102, 241, 0.2) 65%,
-      transparent 80%,
-      transparent 100%
-    ),
-    /* 光带 3：粉色微光带 */
-    linear-gradient(
-      95deg,
-      transparent 0%,
-      transparent 40%,
-      rgba(236, 72, 153, 0.08) 55%,
-      rgba(236, 72, 153, 0.18) 65%,
-      rgba(236, 72, 153, 0.08) 75%,
-      transparent 85%,
-      transparent 100%
-    );
-  animation: aurora-drift 20s ease-in-out infinite;
-  filter: blur(2px);
-}
-
-/* 第二层光带 - 大面积柔和光晕 */
-.VPHero::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background:
     radial-gradient(
-      ellipse 900px 300px at 25% 40%,
-      rgba(59, 130, 246, 0.2) 0%,
-      rgba(59, 130, 246, 0.05) 40%,
+      ellipse 800px 400px at 20% 30%,
+      rgba(59, 130, 246, 0.12) 0%,
+      rgba(59, 130, 246, 0.04) 40%,
       transparent 70%
     ),
     radial-gradient(
-      ellipse 700px 250px at 75% 50%,
-      rgba(139, 92, 246, 0.18) 0%,
-      rgba(139, 92, 246, 0.04) 40%,
+      ellipse 600px 300px at 80% 50%,
+      rgba(139, 92, 246, 0.1) 0%,
+      rgba(139, 92, 246, 0.03) 40%,
       transparent 70%
     ),
     radial-gradient(
-      ellipse 500px 200px at 50% 60%,
-      rgba(236, 72, 153, 0.1) 0%,
+      ellipse 400px 200px at 50% 80%,
+      rgba(236, 72, 153, 0.06) 0%,
       transparent 60%
     );
-  animation: aurora-drift 25s ease-in-out infinite reverse;
-  filter: blur(30px);
+  animation: aurora-flow 35s ease-in-out infinite reverse;
+  filter: blur(40px);
 }
 
-/* 极光漂移动画 - 更大幅度的流动 */
-@keyframes aurora-drift {
+@keyframes aurora-flow {
   0%, 100% {
-    transform: translateX(0%) translateY(0%) scale(1);
-    opacity: 0.9;
+    transform: translate(0, 0) scale(1);
   }
   25% {
-    transform: translateX(8%) translateY(-5%) scale(1.05);
-    opacity: 1;
+    transform: translate(3%, -2%) scale(1.02);
   }
   50% {
-    transform: translateX(12%) translateY(3%) scale(0.98);
-    opacity: 0.85;
+    transform: translate(-2%, 3%) scale(0.98);
   }
   75% {
-    transform: translateX(-5%) translateY(6%) scale(1.02);
-    opacity: 0.95;
+    transform: translate(2%, -1%) scale(1.01);
   }
 }
 
-/* 标题文字渐变 - 亮色模式下也醒目 */
+/* 4. 主应用容器 - 在背景层之上 */
+.VPApp {
+  position: relative;
+  z-index: 1;
+}
+
+/* 5. 强制所有 VitePress 组件深色背景 */
+.VPNavBar,
+.VPSidebar,
+.VPContent,
+.VPFooter,
+.VPDoc,
+.VPDoc-main,
+.VPDoc-footer,
+.VPDocPage,
+.VPFeature,
+.VPHero,
+.VPHome,
+.VPPage,
+.VPNotFound {
+  background: transparent !important;
+}
+
+/* 导航栏 */
+.VPNavBar {
+  backdrop-filter: blur(16px);
+  background: rgba(10, 10, 10, 0.7) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.VPNavBar .title,
+.VPNavBar .content-body {
+  color: #e5e7eb !important;
+}
+
+/* 侧边栏 */
+.VPSidebar {
+  background: transparent !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.VPSidebar .curtain {
+  background: transparent !important;
+}
+
+.VPSidebarItem .text,
+.VPSidebar .text,
+.VPSidebar a,
+.VPSidebar button {
+  color: #9ca3af !important;
+}
+
+.VPSidebar .active > .text,
+.VPSidebar .is-active > .text {
+  color: #fff !important;
+}
+
+/* 正文内容区 */
+.VPDoc {
+  background: transparent !important;
+}
+
+.VPDoc-main {
+  background: transparent !important;
+}
+
+.VPDoc-content,
+.VPDoc-content :is(h1, h2, h3, h4, h5, h6) {
+  color: #e5e7eb !important;
+}
+
+.VPDoc-content :is(p, li) {
+  color: #d1d5db !important;
+}
+
+.VPDoc-content a {
+  color: #60a5fa !important;
+}
+
+.VPDoc-content a:hover {
+  color: #93c5fd !important;
+}
+
+/* 代码块 */
+.VPDoc-content .language-bash,
+.VPDoc-content .language-java,
+.VPDoc-content [class*='language-'] {
+  background: rgba(15, 15, 20, 0.85) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+}
+
+/* 内联代码 */
+.VPDoc-content code {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #c4b5fd !important;
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+
+/* 引用块 */
+.VPDoc-content blockquote {
+  background: rgba(139, 92, 246, 0.08) !important;
+  border-left: 3px solid #8b5cf6 !important;
+  color: #d1d5db !important;
+}
+
+/* 表格 */
+.VPDoc-content table {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.VPDoc-content th {
+  background: rgba(255, 255, 255, 0.05) !important;
+  color: #e5e7eb !important;
+}
+
+.VPDoc-content td {
+  color: #d1d5db !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* 分隔线 */
+.VPDoc-content hr {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* 6. Hero 区域 - 融入全局极光 */
+.VPHero {
+  position: relative;
+  overflow: hidden;
+  padding: 8rem 0 6rem;
+  min-height: 70vh;
+  background: transparent !important;
+}
+
 .VPHero .name {
   background: linear-gradient(120deg, #60a5fa 0%, #a78bfa 40%, #c4b5fd 60%, #f472b6 100%);
   -webkit-background-clip: text;
@@ -125,19 +249,17 @@
   background-clip: text;
 }
 
-/* 副标题文字颜色 */
 .VPHero .tagline {
   color: rgba(203, 213, 225, 0.75) !important;
   font-size: 1.1rem !important;
 }
 
-/* 确保内容在背景之上 */
 .VPHero .container {
   position: relative;
   z-index: 2;
 }
 
-/* 按钮适配深色背景 */
+/* Hero 按钮 */
 .VPHero .VPButton.brand {
   background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%) !important;
   border: none !important;
@@ -163,46 +285,91 @@
   border-color: rgba(255, 255, 255, 0.3) !important;
 }
 
-/* 粒子画布容器 */
+/* 7. 搜索框 */
+.VPSearch .prompt,
+.VPSearch .input {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  color: #e5e7eb !important;
+}
+
+/* 8. 页脚 */
+.VPFooter {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  color: #9ca3af !important;
+}
+
+/* 9. 暗色模式变量覆盖 - 确保所有组件统一深色 */
+:root {
+  --vp-c-bg: #0a0a0a;
+  --vp-c-bg-soft: #111118;
+  --vp-c-bg-alt: #0f0f16;
+  --vp-c-bg-elv: #15151f;
+  --vp-c-border: rgba(255, 255, 255, 0.08);
+  --vp-c-divider: rgba(255, 255, 255, 0.06);
+  --vp-c-text-1: #e5e7eb;
+  --vp-c-text-2: #9ca3af;
+  --vp-c-text-3: #6b7280;
+  --vp-c-brand-1: #60a5fa;
+  --vp-c-brand-2: #8b5cf6;
+  --vp-c-brand-3: #c4b5fd;
+  --vp-c-brand-soft: rgba(139, 92, 246, 0.15);
+  --vp-c-gpu-0: rgba(255, 255, 255, 0.02);
+  --vp-c-gpu-1: rgba(255, 255, 255, 0.05);
+  --vp-c-gpu-2: rgba(255, 255, 255, 0.08);
+  --vp-c-gpu-3: rgba(255, 255, 255, 0.12);
+  --vp-c-gpu-4: rgba(255, 255, 255, 0.16);
+  --vp-c-gpu-5: rgba(255, 255, 255, 0.2);
+}
+
+/* 暗色模式 */
+html.dark {
+  --vp-c-bg: #0a0a0a;
+  --vp-c-bg-soft: #111118;
+  --vp-c-bg-alt: #0f0f16;
+  --vp-c-bg-elv: #15151f;
+  --vp-c-border: rgba(255, 255, 255, 0.08);
+  --vp-c-divider: rgba(255, 255, 255, 0.06);
+  --vp-c-text-1: #e5e7eb;
+  --vp-c-text-2: #9ca3af;
+  --vp-c-text-3: #6b7280;
+  --vp-c-brand-1: #60a5fa;
+  --vp-c-brand-2: #8b5cf6;
+  --vp-c-brand-3: #c4b5fd;
+}
+
+/* 10. 滚动条 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.5);
+}
+
+/* 11. 选中文本颜色 */
+::selection {
+  background: rgba(139, 92, 246, 0.4);
+  color: #fff;
+}
+
+/* 12. 粒子画布 - 全局 */
 .aurora-particles {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
   pointer-events: none;
-}
-
-/* 暗色模式 - 背景更深邃 */
-html.dark .VPHero {
-  background: linear-gradient(180deg, #080d1a 0%, #0d1220 30%, #160d2e 60%, #080d1a 100%);
-}
-
-html.dark .VPHero::before {
-  background:
-    linear-gradient(
-      110deg,
-      transparent 0%,
-      transparent 10%,
-      transparent 20%,
-      rgba(59, 130, 246, 0.18) 35%,
-      rgba(59, 130, 246, 0.45) 45%,
-      rgba(139, 92, 246, 0.32) 55%,
-      rgba(139, 92, 246, 0.15) 65%,
-      transparent 78%,
-      transparent 100%
-    ),
-    linear-gradient(
-      70deg,
-      transparent 0%,
-      transparent 15%,
-      transparent 30%,
-      rgba(167, 139, 250, 0.2) 45%,
-      rgba(139, 92, 246, 0.38) 55%,
-      rgba(99, 102, 241, 0.25) 65%,
-      transparent 82%,
-      transparent 100%
-    );
-}
-
-html.dark .VPHero .tagline {
-  color: rgba(203, 213, 225, 0.85) !important;
 }

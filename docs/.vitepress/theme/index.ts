@@ -1,33 +1,22 @@
 import DefaultTheme from 'vitepress/theme'
 import './custom.css'
 
-// 粒子效果初始化 - 在客户端运行
-function initParticles() {
+// 全局粒子效果 - 注入到 body，覆盖整个视口
+function initGlobalParticles() {
   if (typeof window === 'undefined') return
 
+  // 注入全局粒子画布（fixed 定位，覆盖整个视口）
   const inject = () => {
-    const hero = document.querySelector('.VPHero')
-    if (!hero) return
-    if (hero.querySelector('.aurora-particles')) return
-
+    if (document.querySelector('.aurora-particles')) return
     const canvas = document.createElement('canvas')
     canvas.className = 'aurora-particles'
-    hero.insertBefore(canvas, hero.firstChild)
+    document.body.appendChild(canvas)
     startParticleAnimation(canvas)
   }
 
-  // 立即尝试
   inject()
-
-  // 延迟重试（确保 VitePress 渲染完成）
-  setTimeout(inject, 500)
-  setTimeout(inject, 1500)
-
-  // MutationObserver 监听 DOM 变化
-  const observer = new MutationObserver(() => {
-    inject()
-  })
-  observer.observe(document.body, { childList: true, subtree: true })
+  setTimeout(inject, 300)
+  setTimeout(inject, 1000)
 }
 
 // Canvas 粒子动画
@@ -36,24 +25,22 @@ function startParticleAnimation(canvas) {
   let particles = []
 
   function resize() {
-    const rect = canvas.parentElement.getBoundingClientRect()
     const dpr = window.devicePixelRatio || 1
-    canvas.width = rect.width * dpr
-    canvas.height = rect.height * dpr
-    canvas.style.width = rect.width + 'px'
-    canvas.style.height = rect.height + 'px'
+    canvas.width = window.innerWidth * dpr
+    canvas.height = window.innerHeight * dpr
+    canvas.style.width = window.innerWidth + 'px'
+    canvas.style.height = window.innerHeight + 'px'
     ctx.scale(dpr, dpr)
     initParticles()
   }
 
   function initParticles() {
-    const rect = canvas.parentElement.getBoundingClientRect()
-    const count = Math.min(60, Math.floor((rect.width * rect.height) / 20000))
+    const count = Math.min(80, Math.floor((window.innerWidth * window.innerHeight) / 18000))
     particles = []
     for (let i = 0; i < count; i++) {
       particles.push({
-        x: Math.random() * rect.width,
-        y: Math.random() * rect.height,
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
         vx: (Math.random() - 0.5) * 0.2,
         vy: (Math.random() - 0.5) * 0.2,
         radius: Math.random() * 1.5 + 0.5,
@@ -65,17 +52,18 @@ function startParticleAnimation(canvas) {
   }
 
   function animate() {
-    const rect = canvas.parentElement.getBoundingClientRect()
-    ctx.clearRect(0, 0, rect.width, rect.height)
+    const w = window.innerWidth
+    const h = window.innerHeight
+    ctx.clearRect(0, 0, w, h)
 
     particles.forEach(p => {
       p.x += p.vx
       p.y += p.vy
 
-      if (p.x < 0) p.x = rect.width
-      if (p.x > rect.width) p.x = 0
-      if (p.y < 0) p.y = rect.height
-      if (p.y > rect.height) p.y = 0
+      if (p.x < 0) p.x = w
+      if (p.x > w) p.x = 0
+      if (p.y < 0) p.y = h
+      if (p.y > h) p.y = 0
 
       p.twinklePhase += p.twinkleSpeed
       const currentOpacity = p.opacity * (0.5 + 0.5 * Math.sin(p.twinklePhase))
@@ -96,7 +84,6 @@ function startParticleAnimation(canvas) {
       ctx.fill()
     })
 
-    // 近邻连线
     ctx.lineWidth = 0.5
     for (let i = 0; i < particles.length; i++) {
       for (let j = i + 1; j < particles.length; j++) {
@@ -129,14 +116,12 @@ export default {
   extends: DefaultTheme,
   enhanceApp() {
     if (typeof window !== 'undefined') {
-      // DOM 就绪后启动粒子效果
       if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initParticles)
+        document.addEventListener('DOMContentLoaded', initGlobalParticles)
       } else {
-        initParticles()
+        initGlobalParticles()
       }
-      // 路由变化后重试
-      window.addEventListener('hashchange', () => setTimeout(initParticles, 300))
+      window.addEventListener('hashchange', () => setTimeout(initGlobalParticles, 300))
     }
   }
 }
