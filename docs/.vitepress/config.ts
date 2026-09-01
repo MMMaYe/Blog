@@ -74,7 +74,7 @@ export default defineConfig({
             text: 'Java',
             collapsed: false,
             items: [
-              { text: '虚拟线程', link: '/后端技术/java/虚拟线程的理解' }
+              { text: '虚拟线程', link: '/后端技术/Java/虚拟线程的理解' }
             ]
           }
 //        ,
