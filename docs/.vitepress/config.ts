@@ -66,25 +66,29 @@ export default defineConfig({
     sidebar: [
       {
         text: '后端技术',
+        // 显示折叠/展开箭头；false 表示默认展开，可手动收起
+        collapsed: false,
         // 一级分类下可以继续嵌套二级分类
         items: [
           {
             text: 'Java',
+            collapsed: false,
             items: [
               { text: '虚拟线程', link: '/后端技术/java/虚拟线程的理解' }
             ]
           }
-//       ,
-//           {
-//             text: 'Spring',
-//             items: [
-//               { text: 'Spring Boot 原理', link: '/spring/boot' }
-//             ]
-//           }
+//        ,
+//            {
+//              text: 'Spring',
+//              items: [
+//                { text: 'Spring Boot 原理', link: '/spring/boot' }
+//              ]
+//            }
         ]
       },
       {
         text: '项目',
+        collapsed: false,
         items: [
           {
             text: 'DingRing',
