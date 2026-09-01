@@ -6,7 +6,7 @@ layout: home
 hero:
   name: "MMMaYe 博客"
   text: "记录学习与实践"
-  tagline: Java · 中间件 · 系统设计 · 个人成长
+  tagline: Java · AI · 系统设计 · 个人成长
   actions:
     - theme: brand
       text: 开始阅读

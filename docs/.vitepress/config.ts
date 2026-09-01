@@ -90,10 +90,21 @@ export default defineConfig({
         ]
       },
       {
-        text: '中间件',
+        text: '项目',
         items: [
-          { text: 'Redis', link: '/middleware/redis' },
-          { text: '消息队列', link: '/middleware/mq' }
+          {
+            text: 'DingRing',
+            items: [
+              {
+                text: 'DingRing 的 DDD 实践 · 建模篇：从事件风暴到 COLA4.0 落地',
+                link: '/DingRing记录/DingRing%20领域建模与%20COLA4.0%20分层落地实践'
+              },
+              {
+                text: 'DingRing 的 DDD 实践 · 重构篇：让 DingRing 更 DDD（写作中）',
+                link: '/DingRing记录/DingRing%20中的%20DDD（二）：让%20DingRing%20更%20DDD——一次领域模型重构'
+              }
+            ]
+          }
         ]
       }
     ],
