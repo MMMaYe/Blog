@@ -88,6 +88,7 @@ export default defineConfig({
         items: [
           {
             text: 'DingRing',
+            collapsed: false,
             items: [
               {
                 text: 'DingRing 的 DDD 实践 · 建模篇：从事件风暴到 COLA4.0 落地',
