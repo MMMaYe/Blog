@@ -12,6 +12,6 @@ hero:
       text: 开始阅读
       link: /后端技术/Java/虚拟线程的理解
     - theme: alt
-      text: 关于我
-      link: /about
+#      text: 关于我
+#      link: /about
 ---
