@@ -25,19 +25,26 @@ export default defineConfig({
     }
   },
 
-  // 在 <head> 中注入脚本：首页立刻强制暗色并标记 home-page，避免主题初始化闪烁
+  // 在 <head> 中注入脚本（同步执行，早于页面渲染，避免配色闪烁）：
+  // 1) 首页提前标记 home-page，供导航栏配色适配
+  // 2) 默认白天模式：用户从未手动切换过外观时，移除系统偏好带来的 dark
   head: [
     [
       'script',
       {},
       `
       (function() {
+        var html = document.documentElement;
         var p = location.pathname;
         if (p === '/Blog/' || p === '/Blog' || p === '/Blog/index.html') {
-          var html = document.documentElement;
-          html.classList.add('dark');
           html.classList.add('home-page');
         }
+        try {
+          var saved = localStorage.getItem('vitepress-theme-appearance');
+          if (saved === null || saved === 'auto') {
+            html.classList.remove('dark');
+          }
+        } catch (e) {}
       })();
       `
     ]
@@ -45,7 +52,7 @@ export default defineConfig({
 
   // 默认主题配置
   themeConfig: {
-    // 启用暗/亮模式切换；首页通过主题脚本强制保持暗色
+    // 启用暗/亮模式切换；默认跟随下方 appearance 设置（白天模式）
     darkMode: true,
 
     // 站点标题旁边的 Logo（可替换为 public/ 下的图片）

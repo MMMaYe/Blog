@@ -38,9 +38,8 @@
   background: transparent !important;
 }
 
-/* 3. 暗色模式变量：在 html.dark 与首页同时生效 */
-html.dark,
-.VPHome {
+/* 3. 暗色模式变量：仅在 html.dark 生效（站点默认为白天模式） */
+html.dark {
   --vp-c-bg: #0a0a0a;
   --vp-c-bg-soft: #111118;
   --vp-c-bg-alt: #0f0f16;
@@ -228,10 +227,26 @@ html.dark .VPFooter {
   color: #9ca3af !important;
 }
 
-/* 8. 首页：强制暗色并隐藏外观切换开关 */
-html.home-page .VPNavBar .VPSwitchAppearance,
-html.home-page .VPNavBar .VPSwitch {
-  display: none !important;
+/* 8. 首页适配：Hero 使用深色流体背景，白天模式下需让导航栏与页面底色跟随深色 */
+/* 8.1 Hero 底兜深色：WebGL 背景淡入前（或不支持时）避免白底配白字不可读。
+      只兜底首页内容区（Hero 所在），不影响首页可能出现的其他区块 */
+html.home-page:not(.dark) .VPHome {
+  background: #0a0a0a !important;
+}
+
+/* 8.2 导航栏在首页融入深色 Hero（默认白天模式下同样使用深色配色） */
+html.home-page:not(.dark) .VPNavBar {
+  background: rgba(10, 10, 10, 0.7) !important;
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+html.home-page:not(.dark) .VPNavBar :is(.title, .content-body, .VPNavBarMenuLink) {
+  color: #e5e7eb !important;
+}
+
+html.home-page:not(.dark) .VPNavBar :is(.VPSwitchAppearance, .search-icon) {
+  color: #9ca3af !important;
 }
 
 /* 9. 滚动条 - 暗色模式 */
