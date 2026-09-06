@@ -101,6 +101,10 @@ export default defineConfig({
             text: 'DingRing',
             collapsed: false,
             items: [
+                {
+                    text: 'DingRing中的Agent设计',
+                    link: '/DingRing记录/DingRing中的Agent设计'
+                },
               {
                 text: 'DingRing 的 DDD 实践 · 建模篇：从事件风暴到 COLA4.0 落地',
                 link: '/DingRing记录/DingRing%20领域建模与%20COLA4.0%20分层落地实践'

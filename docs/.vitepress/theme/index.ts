@@ -1,6 +1,7 @@
 import DefaultTheme from 'vitepress/theme'
 import { h } from 'vue'
 import HarnessBackground from './HarnessBackground.vue'
+import ImagePreview from './ImagePreview.vue'
 import './custom.css'
 
 // VitePress 存储用户外观偏好的 key（默认主题使用）
@@ -73,7 +74,9 @@ export default {
   Layout: () =>
     h(DefaultTheme.Layout, null, {
       // 仅首页（layout: home）渲染：DeepSeek Harness 风格流体背景 + 交互点阵
-      'home-hero-before': () => h(HarnessBackground)
+      'home-hero-before': () => h(HarnessBackground),
+      // 全站：文章正文图片点击预览放大（组件内部 Teleport 到 body）
+      'layout-bottom': () => h(ImagePreview)
     }),
   enhanceApp() {
     if (typeof window === 'undefined') return
