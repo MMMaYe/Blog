@@ -10,7 +10,7 @@ hero:
   actions:
     - theme: brand
       text: 开始阅读
-      link: /后端技术/Java/虚拟线程的理解
+      link: /DingRing记录/DingRing中的Agent设计
 #    - theme: alt
 #      text: 关于我
 #      link: /about
