@@ -83,6 +83,20 @@ export default defineConfig({
             items: [
               { text: '虚拟线程', link: '/后端技术/Java/虚拟线程的理解' }
             ]
+          },
+          {
+            text: '中间件',
+            collapsed: false,
+            items: [
+              { text: '从 Redis 到 Tair', link: '/中间件/从Redis到Tair' }
+            ]
+          },
+          {
+            text: '数据库',
+            collapsed: false,
+            items: [
+              { text: '慢查询优化', link: '/数据库/慢查询优化' }
+            ]
           }
 //        ,
 //            {
