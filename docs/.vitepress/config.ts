@@ -12,8 +12,8 @@ export default defineConfig({
   title: 'MMMaYe 博客',
   description: '个人技术博客 · 记录学习与实践',
 
-  // 开启最后更新时间（基于 git 提交时间）
-  lastUpdated: true,
+  // 关闭最后更新时间（基于 git 提交时间），页面不展示
+  lastUpdated: false,
 
   // 清理输出目录，避免旧文件残留
   cleanUrls: true,
@@ -196,9 +196,6 @@ export default defineConfig({
       pattern: 'https://github.com/MMMaYe/Blog/edit/main/docs/:path',
       text: '在 GitHub 上编辑此页'
     },
-
-    // 最后更新时间显示格式
-    lastUpdatedText: '最后更新',
 
     // 返回顶部按钮
     returnToTopLabel: '返回顶部',
