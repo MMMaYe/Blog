@@ -81,14 +81,24 @@ export default defineConfig({
             text: 'Java',
             collapsed: false,
             items: [
-              { text: '虚拟线程', link: '/后端技术/Java/虚拟线程的理解' }
+              { text: '虚拟线程', link: '/后端技术/Java/虚拟线程的理解' },
+              { text: '垃圾收集算法详解', link: '/后端技术/Java/垃圾收集算法详解' }
+            ]
+          },
+          {
+            text: 'JVM',
+            collapsed: false,
+            items: [
+              { text: 'JVM的基础理解', link: '/后端技术/JVM/JVM的基础理解' }
             ]
           },
           {
             text: '中间件',
             collapsed: false,
             items: [
+              { text: '消息中间件选型方案', link: '/中间件/消息中间件选型方案' },
               { text: '从 Redis 到 Tair', link: '/中间件/从Redis到Tair' }
+
             ]
           },
           {
@@ -105,6 +115,14 @@ export default defineConfig({
 //                { text: 'Spring Boot 原理', link: '/spring/boot' }
 //              ]
 //            }
+        ]
+      },
+      {
+        text: '并发编程',
+        collapsed: false,
+        items: [
+          { text: '并发编程基础理解', link: '/并发编程/并发编程基础理解' },
+          { text: 'Java多线程创建原理', link: '/并发编程/Java多线程创建原理' }
         ]
       },
       {
