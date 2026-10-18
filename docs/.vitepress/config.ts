@@ -77,14 +77,14 @@ export default defineConfig({
         collapsed: false,
         // 一级分类下可以继续嵌套二级分类
         items: [
-          {
-            text: 'Java',
-            collapsed: false,
-            items: [
-              { text: '虚拟线程', link: '/后端技术/Java/虚拟线程的理解' },
-              { text: '垃圾收集算法详解', link: '/后端技术/Java/垃圾收集算法详解' }
-            ]
-          },
+//           {
+//             text: 'Java',
+//             collapsed: false,
+//             items: [
+//               { text: '虚拟线程', link: '/后端技术/Java/虚拟线程的理解' },
+//               { text: '垃圾收集算法详解', link: '/后端技术/Java/垃圾收集算法详解' }
+//             ]
+//           },
           {
             text: 'JVM',
             collapsed: false,
@@ -92,15 +92,15 @@ export default defineConfig({
               { text: 'JVM的基础理解', link: '/后端技术/JVM/JVM的基础理解' }
             ]
           },
-          {
-            text: '中间件',
-            collapsed: false,
-            items: [
-              { text: '消息中间件选型方案', link: '/中间件/消息中间件选型方案' },
-              { text: '从 Redis 到 Tair', link: '/中间件/从Redis到Tair' }
-
-            ]
-          },
+//           {
+//             text: '中间件',
+//             collapsed: false,
+//             items: [
+//               { text: '消息中间件选型方案', link: '/中间件/消息中间件选型方案' }
+//               ,{ text: '从 Redis 到 Tair', link: '/中间件/从Redis到Tair' }
+//
+//             ]
+//           },
           {
             text: '数据库',
             collapsed: false,
