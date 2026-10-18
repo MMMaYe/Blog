@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 636" width="720" height="636" role="img" aria-label="JVM 细化架构图：class 文件经类加载子系统进入运行时数据区，由执行引擎执行，底层是操作系统与硬件">
+  <defs>
+    <marker id="ah" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 L7 4 L1 7 Z" fill="#52525B"/></marker>
+    <marker id="ahb" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 L7 4 L1 7 Z" fill="#0FDC78"/></marker>
+  </defs>
+
+  <rect x="0" y="0" width="720" height="636" fill="#FFFFFF"/>
+
+  <rect x="44" y="36" width="200" height="48" rx="8" fill="#EFEFF2" stroke="#E2E2E7"/>
+  <text x="144" y="54" text-anchor="middle" font-family="JetBrains Mono, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="500" fill="#171717">HelloJvm.class</text>
+  <text x="144" y="72" text-anchor="middle" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#52525B">由 javac 编译而来（JDK 工具）</text>
+
+  <path d="M144 84 L144 144" fill="none" stroke="#0FDC78" stroke-width="1.5" stroke-linecap="round" marker-end="url(#ahb)"/>
+
+  <rect x="44" y="112" width="632" height="440" rx="12" fill="#F7F7F8" stroke="#0FDC78" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="652" y="138" text-anchor="end"><tspan font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="16" font-weight="500" fill="#004D26">JVM（Java 虚拟机）</tspan><tspan dx="8" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#52525B">每种操作系统各有一个实现</tspan></text>
+
+  <rect x="64" y="148" width="592" height="48" rx="8" fill="#EFEFF2" stroke="#E2E2E7"/>
+  <text x="84" y="177" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="14" font-weight="500" fill="#171717">类加载子系统</text>
+  <rect x="240" y="160" width="60" height="24" rx="8" fill="#F7F7F8" stroke="#E2E2E7"/>
+  <text x="270" y="176" text-anchor="middle" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#52525B">加载</text>
+  <rect x="308" y="160" width="176" height="24" rx="8" fill="#F7F7F8" stroke="#E2E2E7"/>
+  <text x="396" y="176" text-anchor="middle" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#52525B">链接（验证 · 准备 · 解析）</text>
+  <rect x="492" y="160" width="80" height="24" rx="8" fill="#F7F7F8" stroke="#E2E2E7"/>
+  <text x="532" y="176" text-anchor="middle" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#52525B">初始化</text>
+
+  <path d="M360 196 L360 276" fill="none" stroke="#52525B" stroke-width="1.5" stroke-linecap="round" marker-end="url(#ah)"/>
+
+  <rect x="64" y="280" width="592" height="132" rx="8" fill="#EFEFF2" stroke="#E2E2E7"/>
+  <text x="84" y="304" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="14" font-weight="500" fill="#171717">运行时数据区</text>
+  <line x1="352" y1="316" x2="352" y2="396" stroke="#E2E2E7"/>
+  <text x="84" y="326" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#52525B">线程共享 · 全局一份</text>
+  <rect x="84" y="334" width="132" height="24" rx="8" fill="#F7F7F8" stroke="#E2E2E7"/>
+  <text x="150" y="350" text-anchor="middle" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#52525B">堆（对象 · 数组）</text>
+  <rect x="84" y="366" width="232" height="24" rx="8" fill="#F7F7F8" stroke="#E2E2E7"/>
+  <text x="200" y="382" text-anchor="middle" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#52525B">方法区（类元信息 · 运行时常量池）</text>
+  <text x="368" y="326" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#52525B">线程私有 · 每线程一份</text>
+  <rect x="368" y="334" width="264" height="24" rx="8" fill="#F7F7F8" stroke="#E2E2E7"/>
+  <text x="500" y="350" text-anchor="middle" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#52525B">虚拟机栈（栈帧：局部变量表 · 操作数栈）</text>
+  <rect x="368" y="366" width="104" height="24" rx="8" fill="#F7F7F8" stroke="#E2E2E7"/>
+  <text x="420" y="382" text-anchor="middle" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#52525B">程序计数器</text>
+  <rect x="480" y="366" width="104" height="24" rx="8" fill="#F7F7F8" stroke="#E2E2E7"/>
+  <text x="532" y="382" text-anchor="middle" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#52525B">本地方法栈</text>
+
+  <path d="M360 412 L360 448" fill="none" stroke="#52525B" stroke-width="1.5" stroke-linecap="round" marker-end="url(#ah)"/>
+
+  <rect x="64" y="452" width="592" height="80" rx="8" fill="#EFEFF2" stroke="#E2E2E7"/>
+  <text x="84" y="497" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="14" font-weight="500" fill="#171717">执行引擎</text>
+  <rect x="200" y="464" width="76" height="24" rx="8" fill="#F7F7F8" stroke="#E2E2E7"/>
+  <text x="238" y="480" text-anchor="middle" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#52525B">解释器</text>
+  <rect x="284" y="464" width="104" height="24" rx="8" fill="#F7F7F8" stroke="#E2E2E7"/>
+  <text x="336" y="480" text-anchor="middle" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#52525B">JIT 编译器</text>
+  <rect x="396" y="464" width="136" height="24" rx="8" fill="#F7F7F8" stroke="#E2E2E7"/>
+  <text x="464" y="480" text-anchor="middle" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#52525B">垃圾回收（GC）</text>
+  <rect x="200" y="492" width="148" height="24" rx="8" fill="#F7F7F8" stroke="#E2E2E7"/>
+  <text x="274" y="508" text-anchor="middle" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#52525B">JNI（本地方法接口）</text>
+
+  <path d="M360 532 L360 564" fill="none" stroke="#52525B" stroke-width="1.5" stroke-linecap="round" marker-end="url(#ah)"/>
+
+  <rect x="44" y="568" width="632" height="44" rx="8" fill="#EFEFF2" stroke="#E2E2E7"/>
+  <text x="68" y="596" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="14" font-weight="500" fill="#171717">操作系统 + 硬件</text>
+  <text x="210" y="596" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#52525B">macOS / Linux / Windows 各不相同，由 JVM 屏蔽差异</text>
+</svg>

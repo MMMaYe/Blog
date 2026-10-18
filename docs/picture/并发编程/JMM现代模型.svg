@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 440" width="720" height="440" role="img" aria-label="现代 JMM 心智图：动作、happens-before 与共享堆内存">
+  <defs>
+    <marker id="am" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 L7 4 L1 7 Z" fill="#52525B"/></marker>
+    <marker id="bm" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 L7 4 L1 7 Z" fill="#0AB861"/></marker>
+  </defs>
+  <rect x="0" y="0" width="720" height="440" fill="#FFFFFF"/>
+  <text x="360" y="30" text-anchor="middle" font-family="-apple-system, 'PingFang SC', sans-serif" font-size="16" font-weight="600" fill="#171717">现代 JMM 心智图（JSR-133 · JLS §17.4）</text>
+  <text x="360" y="52" text-anchor="middle" font-family="-apple-system, 'PingFang SC', sans-serif" font-size="12" fill="#52525B">JMM 不再描述内存结构 —— 它是一套关于「动作与顺序」的契约</text>
+
+  <rect x="50" y="76" width="250" height="120" rx="10" fill="#F7F7F8" stroke="#D8D8DE"/>
+  <text x="175" y="100" text-anchor="middle" font-family="-apple-system, 'PingFang SC', sans-serif" font-size="14" font-weight="500" fill="#171717">线程 1</text>
+  <text x="175" y="120" text-anchor="middle" font-family="-apple-system, 'PingFang SC', sans-serif" font-size="12" fill="#52525B">线程私有：栈 · 局部变量 · 方法参数</text>
+  <rect x="66" y="150" width="86" height="24" rx="6" fill="#FFFFFF" stroke="#D8D8DE"/><text x="109" y="166" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="12" fill="#171717">写 x = 1</text>
+  <rect x="162" y="150" width="128" height="24" rx="6" fill="#E5FFF2" stroke="#0AB861"/><text x="226" y="166" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="12" fill="#004D26">volatile 写 done</text>
+
+  <rect x="420" y="76" width="250" height="120" rx="10" fill="#F7F7F8" stroke="#D8D8DE"/>
+  <text x="545" y="100" text-anchor="middle" font-family="-apple-system, 'PingFang SC', sans-serif" font-size="14" font-weight="500" fill="#171717">线程 2</text>
+  <text x="545" y="120" text-anchor="middle" font-family="-apple-system, 'PingFang SC', sans-serif" font-size="12" fill="#52525B">线程私有：栈 · 局部变量 · 方法参数</text>
+  <rect x="434" y="150" width="130" height="24" rx="6" fill="#E5FFF2" stroke="#0AB861"/><text x="499" y="166" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="12" fill="#004D26">volatile 读 done</text>
+  <rect x="574" y="150" width="70" height="24" rx="6" fill="#FFFFFF" stroke="#D8D8DE"/><text x="609" y="166" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="12" fill="#171717">读 x</text>
+
+  <rect x="302" y="124" width="116" height="22" rx="11" fill="#E5FFF2" stroke="#0AB861"/><text x="360" y="139" text-anchor="middle" font-family="-apple-system, 'PingFang SC', sans-serif" font-size="12" font-weight="500" fill="#004D26">happens-before</text>
+  <line x1="292" y1="162" x2="420" y2="162" stroke="#0AB861" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#bm)"/>
+  <text x="360" y="188" text-anchor="middle" font-family="-apple-system, 'PingFang SC', sans-serif" font-size="12" fill="#52525B">volatile 写 → 读（举例）</text>
+
+  <line x1="90" y1="196" x2="90" y2="252" stroke="#52525B" stroke-width="1.5" marker-end="url(#am)"/>
+  <line x1="630" y1="196" x2="630" y2="252" stroke="#52525B" stroke-width="1.5" marker-end="url(#am)"/>
+
+  <rect x="150" y="200" width="420" height="40" rx="8" fill="#F7F7F8" stroke="#D8D8DE"/>
+  <text x="360" y="218" text-anchor="middle" font-family="-apple-system, 'PingFang SC', sans-serif" font-size="13" font-weight="500" fill="#171717">JMM 的全部工作：裁决「每个读操作允许观察到哪个写」</text>
+  <text x="360" y="234" text-anchor="middle" font-family="-apple-system, 'PingFang SC', sans-serif" font-size="12" fill="#52525B">不规定「工作内存」等任何实现结构（那是旧模型的直觉图）</text>
+
+  <rect x="50" y="256" width="620" height="56" rx="10" fill="#E5FFF2" stroke="#0AB861"/>
+  <text x="360" y="280" text-anchor="middle" font-family="-apple-system, 'PingFang SC', sans-serif" font-size="14" font-weight="500" fill="#004D26">共享主内存（Heap）</text>
+  <text x="360" y="300" text-anchor="middle" font-family="-apple-system, 'PingFang SC', sans-serif" font-size="12" fill="#004D26">实例字段 · 静态字段 · 数组元素 —— 被所有线程共享</text>
+
+  <text x="50" y="340" font-family="-apple-system, 'PingFang SC', sans-serif" font-size="12" fill="#52525B">建立 happens-before 的常用动作：</text>
+  <rect x="50" y="348" width="72" height="24" rx="6" fill="#F7F7F8" stroke="#D8D8DE"/><text x="86" y="364" text-anchor="middle" font-family="-apple-system, 'PingFang SC', sans-serif" font-size="12" fill="#171717">程序顺序</text>
+  <rect x="134" y="348" width="118" height="24" rx="6" fill="#F7F7F8" stroke="#D8D8DE"/><text x="193" y="364" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="12" fill="#171717">锁 unlock→lock</text>
+  <rect x="264" y="348" width="112" height="24" rx="6" fill="#F7F7F8" stroke="#D8D8DE"/><text x="320" y="364" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="12" fill="#171717">volatile 写→读</text>
+  <rect x="388" y="348" width="132" height="24" rx="6" fill="#F7F7F8" stroke="#D8D8DE"/><text x="454" y="364" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="12" fill="#171717">Thread.start·join</text>
+  <rect x="532" y="348" width="96" height="24" rx="6" fill="#F7F7F8" stroke="#D8D8DE"/><text x="580" y="364" text-anchor="middle" font-family="-apple-system, 'PingFang SC', sans-serif" font-size="12" fill="#171717">final 语义</text>
+
+  <rect x="50" y="390" width="306" height="34" rx="8" fill="#E5FFF2" stroke="#0AB861"/><text x="203" y="411" text-anchor="middle" font-family="-apple-system, 'PingFang SC', sans-serif" font-size="13" font-weight="500" fill="#004D26">有 hb ⇒ 保证可见且有序</text>
+  <rect x="364" y="390" width="306" height="34" rx="8" fill="#FDECEA" stroke="#E8463A"/><text x="517" y="411" text-anchor="middle" font-family="-apple-system, 'PingFang SC', sans-serif" font-size="13" font-weight="500" fill="#E8463A">无 hb ⇒ 读到旧值/乱序值都是合法执行</text>
+</svg>

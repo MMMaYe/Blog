@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 444" width="720" height="444" role="img" aria-label="双亲委派机制：自定义类加载器收到请求后自下而上逐级委托到启动类加载器，结果自上而下逐层返回；启动类加载器位于顶部，是委派终点">
+  <defs>
+    <marker id="ah" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 L7 4 L1 7 Z" fill="#52525B"/></marker>
+  </defs>
+
+  <rect x="0" y="0" width="720" height="444" fill="#FFFFFF"/>
+
+  <rect x="60" y="114" width="104" height="22" rx="11" fill="#F7F7F8" stroke="#E2E2E7"/>
+  <text x="112" y="129" text-anchor="middle" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#52525B">① 请求向上委托</text>
+  <rect x="556" y="114" width="104" height="22" rx="11" fill="#F7F7F8" stroke="#E2E2E7"/>
+  <text x="608" y="129" text-anchor="middle" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#52525B">② 结果向下返回</text>
+
+  <rect x="220" y="44" width="300" height="52" rx="8" fill="#E5FFF2" stroke="#0FDC78"/>
+  <text x="370" y="65" text-anchor="middle" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="14" font-weight="500" fill="#004D26">启动类加载器（Bootstrap）</text>
+  <text x="370" y="83" text-anchor="middle" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#004D26">JVM 内置 · Java 里表现为 null</text>
+
+  <path d="M180 148 L180 100" fill="none" stroke="#52525B" stroke-width="1.5" stroke-linecap="round" marker-end="url(#ah)"/>
+  <path d="M540 100 L540 144" fill="none" stroke="#52525B" stroke-width="1.5" stroke-linecap="round" marker-end="url(#ah)"/>
+
+  <rect x="220" y="148" width="300" height="52" rx="8" fill="#EFEFF2" stroke="#E2E2E7"/>
+  <text x="370" y="169" text-anchor="middle" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="14" font-weight="500" fill="#171717">平台类加载器（Platform）</text>
+  <text x="370" y="187" text-anchor="middle" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#52525B">加载 java.se、jdk.* 平台模块</text>
+
+  <path d="M180 252 L180 204" fill="none" stroke="#52525B" stroke-width="1.5" stroke-linecap="round" marker-end="url(#ah)"/>
+  <path d="M540 204 L540 248" fill="none" stroke="#52525B" stroke-width="1.5" stroke-linecap="round" marker-end="url(#ah)"/>
+
+  <rect x="220" y="252" width="300" height="52" rx="8" fill="#EFEFF2" stroke="#E2E2E7"/>
+  <text x="370" y="273" text-anchor="middle" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="14" font-weight="500" fill="#171717">应用类加载器（System / App）</text>
+  <text x="370" y="291" text-anchor="middle" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#52525B">加载 classpath 上的类</text>
+
+  <path d="M180 356 L180 308" fill="none" stroke="#52525B" stroke-width="1.5" stroke-linecap="round" marker-end="url(#ah)"/>
+  <path d="M540 308 L540 352" fill="none" stroke="#52525B" stroke-width="1.5" stroke-linecap="round" marker-end="url(#ah)"/>
+
+  <rect x="220" y="356" width="300" height="52" rx="8" fill="#EFEFF2" stroke="#E2E2E7"/>
+  <text x="370" y="377" text-anchor="middle" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="14" font-weight="500" fill="#171717">自定义类加载器</text>
+  <text x="370" y="395" text-anchor="middle" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#52525B">继承 ClassLoader · 重写 findClass</text>
+
+  <text x="44" y="430" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#52525B">JDK 8 及以前中间层为 ExtClassLoader（内部 API），JDK 9 起改为 PlatformClassLoader</text>
+</svg>

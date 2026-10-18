@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 200" width="720" height="200" role="img" aria-label="类加载生命周期：加载、链接、初始化三步流程，各步骤附规范章节号与要点">
+  <defs>
+    <marker id="ah" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 L7 4 L1 7 Z" fill="#52525B"/></marker>
+  </defs>
+
+  <rect x="0" y="0" width="720" height="200" fill="#FFFFFF"/>
+
+  <rect x="44" y="64" width="170" height="88" rx="8" fill="#EFEFF2" stroke="#E2E2E7"/>
+  <text x="129" y="90" text-anchor="middle" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="14" font-weight="500" fill="#171717">加载</text>
+  <text x="129" y="112" text-anchor="middle" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#52525B">拿全限定名找字节流</text>
+  <text x="129" y="130" text-anchor="middle" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#52525B">堆中生成 Class 对象</text>
+
+  <path d="M214 108 L270 108" fill="none" stroke="#52525B" stroke-width="1.5" stroke-linecap="round" marker-end="url(#ah)"/>
+
+  <rect x="274" y="64" width="170" height="88" rx="8" fill="#EFEFF2" stroke="#E2E2E7"/>
+  <text x="359" y="90" text-anchor="middle" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="14" font-weight="500" fill="#171717">链接</text>
+  <text x="359" y="112" text-anchor="middle" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#52525B">验证 · 准备 · 解析</text>
+  <text x="359" y="130" text-anchor="middle" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#52525B">符号引用 → 直接引用</text>
+
+  <path d="M444 108 L500 108" fill="none" stroke="#52525B" stroke-width="1.5" stroke-linecap="round" marker-end="url(#ah)"/>
+
+  <rect x="504" y="64" width="170" height="88" rx="8" fill="#EFEFF2" stroke="#E2E2E7"/>
+  <text x="589" y="90" text-anchor="middle" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="14" font-weight="500" fill="#171717">初始化</text>
+  <text x="589" y="112" text-anchor="middle" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#52525B">执行 &lt;clinit&gt;()</text>
+  <text x="589" y="130" text-anchor="middle" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#52525B">静态字段赋值 · 静态块</text>
+
+  <text x="129" y="178" text-anchor="middle" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#52525B">JVMS §5.3</text>
+  <text x="359" y="178" text-anchor="middle" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#52525B">JVMS §5.4</text>
+  <text x="589" y="178" text-anchor="middle" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#52525B">JVMS §5.5</text>
+</svg>
