@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="680" viewBox="0 0 1240 680" font-family="PingFang SC, STHeiti, Helvetica, Arial, sans-serif">
+  <title>AQS 同步队列结构</title>
+  <defs><marker id="arw555" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#555"/></marker><marker id="arwblue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#2456a6"/></marker><marker id="arwgreen" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#1f7a4d"/></marker><marker id="arworange" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#b45309"/></marker><marker id="arwred" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#b91c1c"/></marker></defs>
+  <rect x="0" y="0" width="1240" height="680" fill="#ffffff"/>
+<text x="620.0" y="38" font-size="22" fill="#1b2a41" text-anchor="middle" font-weight="bold">同步队列：一个带哨兵 head 的双向链表</text><text x="620.0" y="64" font-size="13" fill="#777" text-anchor="middle">入队只需一次 CAS；出队只是移动 head；prev 指针主要为“取消”服务</text>
+  <rect x="70" y="110" width="160" height="96" rx="8" fill="#eef4ff" stroke="#7a9cc6" stroke-width="1.5"/><text x="150.0" y="153.125" font-size="12.5" fill="#1b2d45" text-anchor="middle" font-weight="bold">head（哨兵）</text><text x="150.0" y="171.625" font-size="12.5" fill="#1b2d45" text-anchor="middle">thread = null</text>
+  <rect x="300" y="110" width="180" height="96" rx="8" fill="#fff7e6" stroke="#c98a1a" stroke-width="1.5"/><text x="390.0" y="153.125" font-size="12.5" fill="#1b2d45" text-anchor="middle" font-weight="bold">T1</text><text x="390.0" y="171.625" font-size="12.5" fill="#1b2d45" text-anchor="middle">waitStatus = SIGNAL</text>
+  <rect x="560" y="110" width="180" height="96" rx="8" fill="#ffffff" stroke="#8fb0d6" stroke-width="1.5"/><text x="650.0" y="153.125" font-size="12.5" fill="#1b2d45" text-anchor="middle" font-weight="bold">T2</text><text x="650.0" y="171.625" font-size="12.5" fill="#1b2d45" text-anchor="middle">waitStatus = 0</text>
+  <rect x="820" y="110" width="180" height="96" rx="8" fill="#fdeeee" stroke="#c98a8a" stroke-width="1.5" stroke-dasharray="5,4"/><text x="910.0" y="153.125" font-size="12.5" fill="#1b2d45" text-anchor="middle" font-weight="bold">T3（已取消）</text><text x="910.0" y="171.625" font-size="12.5" fill="#1b2d45" text-anchor="middle">waitStatus = CANCELLED</text>
+  <line x1="234" y1="138" x2="296" y2="138" stroke="#2456a6" stroke-width="1.8" marker-end="url(#arw555)"/>
+  <line x1="484" y1="138" x2="556" y2="138" stroke="#2456a6" stroke-width="1.8" marker-end="url(#arw555)"/>
+  <line x1="744" y1="138" x2="816" y2="138" stroke="#2456a6" stroke-width="1.8" marker-end="url(#arw555)"/>
+  <text x="560" y="104" font-size="12" fill="#2456a6" text-anchor="middle">next →</text>
+  <line x1="816" y1="178" x2="744" y2="178" stroke="#1f7a4d" stroke-width="1.8" marker-end="url(#arw555)"/>
+  <line x1="556" y1="178" x2="484" y2="178" stroke="#1f7a4d" stroke-width="1.8" marker-end="url(#arw555)"/>
+  <line x1="296" y1="178" x2="234" y2="178" stroke="#1f7a4d" stroke-width="1.8" marker-end="url(#arw555)"/>
+  <text x="560" y="214" font-size="12" fill="#1f7a4d" text-anchor="middle">← prev</text>
+  <text x="70" y="92" font-size="12" fill="#2456a6" text-anchor="start">head 字段</text>
+  <text x="1000" y="92" font-size="12" fill="#2456a6" text-anchor="start">tail 字段</text>
+  <line x1="1040" y1="100" x2="1040" y2="108" stroke="#2456a6" stroke-width="1.8" marker-end="url(#arw555)"/>
+  <text x="70" y="262" font-size="12.5" fill="#333" text-anchor="start">head 不是“第一个等待者”，而是“已经拿到锁的那个线程”留下的占位节点：它的 thread 被置 null。</text>
+  <text x="70" y="288" font-size="12.5" fill="#333" text-anchor="start">第一次竞争时 enq() 才创建这个哨兵，空队列时 head == tail == null，平时不浪费对象。</text>
+  <text x="70" y="314" font-size="12.5" fill="#333" text-anchor="start">T3 被取消后，T2 的 next 仍指向它；后续 shouldParkAfterFailedAcquire 会沿 prev 跳过它并重建 next 链。</text>
+  <text x="70" y="346" font-size="14" fill="#1b2a41" text-anchor="start" font-weight="bold">Node.waitStatus 的五个取值（JDK 8u 源码 L387-396）</text>
+  <rect x="70" y="360" width="1100" height="206" rx="8" fill="#fbfcfe" stroke="#d5dde8"/>
+  <text x="80" y="390" font-size="12.5" fill="#2456a6" text-anchor="start" font-weight="bold">0</text>
+  <text x="300" y="390" font-size="12.5" fill="#333" text-anchor="start">初始值</text>
+  <text x="620" y="390" font-size="12.5" fill="#555" text-anchor="start">新节点入队后的默认状态</text>
+  <line x1="82" y1="403" x2="1158" y2="403" stroke="#e6ebf2"/>
+  <text x="80" y="428" font-size="12.5" fill="#2456a6" text-anchor="start" font-weight="bold">SIGNAL = -1</text>
+  <text x="300" y="428" font-size="12.5" fill="#333" text-anchor="start">前驱承诺唤醒</text>
+  <text x="620" y="428" font-size="12.5" fill="#555" text-anchor="start">前驱释放锁时必须 unpark 后继；节点睡下的前提</text>
+  <line x1="82" y1="441" x2="1158" y2="441" stroke="#e6ebf2"/>
+  <text x="80" y="466" font-size="12.5" fill="#2456a6" text-anchor="start" font-weight="bold">CANCELLED = 1</text>
+  <text x="300" y="466" font-size="12.5" fill="#333" text-anchor="start">已取消</text>
+  <text x="620" y="466" font-size="12.5" fill="#555" text-anchor="start">超时 / 中断 / 异常退出，节点作废，等着被跳过</text>
+  <line x1="82" y1="479" x2="1158" y2="479" stroke="#e6ebf2"/>
+  <text x="80" y="504" font-size="12.5" fill="#2456a6" text-anchor="start" font-weight="bold">CONDITION = -2</text>
+  <text x="300" y="504" font-size="12.5" fill="#333" text-anchor="start">在条件队列</text>
+  <text x="620" y="504" font-size="12.5" fill="#555" text-anchor="start">await() 期间用它标记；被 signal 后改回 0 再搬进同步队列</text>
+  <line x1="82" y1="517" x2="1158" y2="517" stroke="#e6ebf2"/>
+  <text x="80" y="542" font-size="12.5" fill="#2456a6" text-anchor="start" font-weight="bold">PROPAGATE = -3</text>
+  <text x="300" y="542" font-size="12.5" fill="#333" text-anchor="start">共享传播</text>
+  <text x="620" y="542" font-size="12.5" fill="#555" text-anchor="start">共享模式下 releaseShared 需要把唤醒向后传播</text>
+</svg>

@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="610" viewBox="0 0 1240 610" font-family="PingFang SC, STHeiti, Helvetica, Arial, sans-serif">
+  <title>Condition 节点转移图</title>
+  <defs><marker id="arw555" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#555"/></marker><marker id="arwblue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#2456a6"/></marker><marker id="arwgreen" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#1f7a4d"/></marker><marker id="arworange" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#b45309"/></marker><marker id="arwred" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#b91c1c"/></marker></defs>
+  <rect x="0" y="0" width="1240" height="610" fill="#ffffff"/>
+<text x="620.0" y="38" font-size="22" fill="#1b2a41" text-anchor="middle" font-weight="bold">Condition：两个队列之间搬节点</text><text x="620.0" y="64" font-size="13" fill="#777" text-anchor="middle">await 把节点放进条件队列并完全释放锁；signal 把它搬回同步队列，还得重新排队抢锁</text>
+  <rect x="60" y="92" width="520" height="318" rx="10" fill="#fffdf5" stroke="#d9b877" stroke-width="1.5"/>
+  <text x="90" y="122" font-size="15" fill="#8a5a00" text-anchor="start" font-weight="bold">ConditionObject 条件队列</text>
+  <text x="90" y="146" font-size="12" fill="#a08050" text-anchor="start">单向 nextWaiter，没有 prev</text>
+  <rect x="88" y="168" width="130" height="70" rx="8" fill="#ffffff" stroke="#d9b877" stroke-width="1.5"/><text x="153.0" y="198.275" font-size="11.5" fill="#1b2a41" text-anchor="middle">firstWaiter → C1</text><text x="153.0" y="215.775" font-size="11.5" fill="#1b2a41" text-anchor="middle">T1 / CONDITION(-2)</text>
+  <line x1="222" y1="203" x2="248" y2="203" stroke="#b45309" stroke-width="1.8" marker-end="url(#arw555)"/>
+  <rect x="248" y="168" width="130" height="70" rx="8" fill="#ffffff" stroke="#d9b877" stroke-width="1.5"/><text x="313.0" y="198.275" font-size="11.5" fill="#1b2a41" text-anchor="middle">C2</text><text x="313.0" y="215.775" font-size="11.5" fill="#1b2a41" text-anchor="middle">T2 / CONDITION(-2)</text>
+  <line x1="382" y1="203" x2="408" y2="203" stroke="#b45309" stroke-width="1.8" marker-end="url(#arw555)"/>
+  <rect x="408" y="168" width="130" height="70" rx="8" fill="#ffffff" stroke="#d9b877" stroke-width="1.5"/><text x="473.0" y="198.275" font-size="11.5" fill="#1b2a41" text-anchor="middle">C3</text><text x="473.0" y="215.775" font-size="11.5" fill="#1b2a41" text-anchor="middle">T3 / CONDITION(-2)</text>
+  <text x="90" y="272" font-size="13" fill="#8a5a00" text-anchor="start" font-weight="bold">await() 的五步（ConditionObject.await 源码注释）</text>
+  <text x="94" y="296" font-size="11.5" fill="#5b4a2a" text-anchor="start">1. 已中断则直接抛 InterruptedException</text>
+  <text x="94" y="318" font-size="11.5" fill="#5b4a2a" text-anchor="start">2. 记下当前 state（保存重入层数）</text>
+  <text x="94" y="340" font-size="11.5" fill="#5b4a2a" text-anchor="start">3. fullyRelease：一次性完全释放锁</text>
+  <text x="94" y="362" font-size="11.5" fill="#5b4a2a" text-anchor="start">4. 进条件队列，park 等 signal / 中断 / 超时</text>
+  <text x="94" y="384" font-size="11.5" fill="#5b4a2a" text-anchor="start">5. 被 signal 后再 acquireQueued 重新抢锁并恢复 state</text>
+  <rect x="660" y="92" width="520" height="318" rx="10" fill="#f5f9ff" stroke="#8fb0d6" stroke-width="1.5"/>
+  <text x="690" y="122" font-size="15" fill="#2456a6" text-anchor="start" font-weight="bold">AQS 同步队列</text>
+  <text x="690" y="146" font-size="12" fill="#5f7fa5" text-anchor="start">双向 prev / next，竞争锁用</text>
+  <rect x="688" y="168" width="130" height="70" rx="8" fill="#ffffff" stroke="#8fb0d6" stroke-width="1.5"/><text x="753.0" y="198.275" font-size="11.5" fill="#1b2a41" text-anchor="middle">head</text><text x="753.0" y="215.775" font-size="11.5" fill="#1b2a41" text-anchor="middle">已持有锁</text>
+  <line x1="822" y1="190" x2="848" y2="190" stroke="#2456a6" stroke-width="1.8" marker-end="url(#arw555)"/>
+  <line x1="848" y1="216" x2="822" y2="216" stroke="#1f7a4d" stroke-width="1.8" marker-end="url(#arw555)"/>
+  <rect x="848" y="168" width="130" height="70" rx="8" fill="#ffffff" stroke="#8fb0d6" stroke-width="1.5"/><text x="913.0" y="198.275" font-size="11.5" fill="#1b2a41" text-anchor="middle">N1</text><text x="913.0" y="215.775" font-size="11.5" fill="#1b2a41" text-anchor="middle">T4 / SIGNAL</text>
+  <line x1="982" y1="190" x2="1008" y2="190" stroke="#2456a6" stroke-width="1.8" marker-end="url(#arw555)"/>
+  <line x1="1008" y1="216" x2="982" y2="216" stroke="#1f7a4d" stroke-width="1.8" marker-end="url(#arw555)"/>
+  <rect x="1008" y="168" width="130" height="70" rx="8" fill="#ffffff" stroke="#8fb0d6" stroke-width="1.5"/><text x="1073.0" y="198.275" font-size="11.5" fill="#1b2a41" text-anchor="middle">tail</text><text x="1073.0" y="215.775" font-size="11.5" fill="#1b2a41" text-anchor="middle">空或等待者</text>
+  <text x="690" y="278" font-size="12.5" fill="#2456a6" text-anchor="start" font-weight="bold">被 signal 的节点不是“立刻运行”：</text>
+  <text x="690" y="306" font-size="12.5" fill="#3b5b84" text-anchor="start">它只是从条件队列搬到同步队列尾部，</text>
+  <text x="690" y="332" font-size="12.5" fill="#3b5b84" text-anchor="start">仍要等前面的人释放锁，并被 unpark</text>
+  <text x="690" y="358" font-size="12.5" fill="#3b5b84" text-anchor="start">才有机会返回。</text>
+  <polyline points="400,410 400,440 700,440 700,410" fill="none" stroke="#1f7a4d" stroke-width="2.0" stroke-dasharray="7,5" marker-end="url(#arwgreen)"/>
+  <text x="550" y="432" font-size="12.5" fill="#1f7a4d" text-anchor="middle">signal()：transferForSignal 把节点搬回同步队列</text>
+  <polyline points="760,410 760,490 300,490 300,410" fill="none" stroke="#b45309" stroke-width="2.0" stroke-dasharray="7,5" marker-end="url(#arworange)"/>
+  <text x="540" y="482" font-size="12.5" fill="#b45309" text-anchor="middle">await()：入条件队列 + fullyRelease 完全释放锁</text>
+  <text x="620" y="530" font-size="12.5" fill="#333" text-anchor="middle">signal() 必须持有锁，否则抛 IllegalMonitorStateException；await() 同样如此。</text>
+  <text x="620" y="556" font-size="12.5" fill="#333" text-anchor="middle">与 Object.wait/notify 最大的区别：一把锁可以挂多个 Condition，各自有独立等待集，notify 不会串台。</text>
+  <text x="620" y="582" font-size="12.5" fill="#666" text-anchor="middle">两者都用同一个 Node 类，只是挂在不同链表上（条件队列靠 nextWaiter，同步队列靠 prev/next）。</text>
+</svg>

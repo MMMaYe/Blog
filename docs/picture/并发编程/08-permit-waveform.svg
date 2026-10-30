@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="450" viewBox="0 0 1240 450" font-family="PingFang SC, Hiragino Sans GB, STHeiti, Helvetica, Arial, sans-serif">
+  <title>两次 unpark、两次 park：许可只够用一次</title>
+  <defs>
+    <marker id="agr" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#1f7a4d"/>
+    </marker>
+    <marker id="agrey" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#9aa4b2"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1240" height="450" fill="#ffffff"/>
+  <text x="620.0" y="40" font-size="22" fill="#1b2a41" text-anchor="middle" font-weight="bold">两次 unpark、两次 park：许可只够用一次</text>
+  <text x="620.0" y="66" font-size="13" fill="#777" text-anchor="middle">同一个线程顺序执行；许可是一个 0/1 开关，不是计数器——横轴是执行顺序，不是时间比例</text>
+  <line x1="260" y1="118" x2="260" y2="350" stroke="#e2e7ef" stroke-width="1.2" stroke-dasharray="4 4"/>
+  <line x1="480" y1="118" x2="480" y2="350" stroke="#e2e7ef" stroke-width="1.2" stroke-dasharray="4 4"/>
+  <line x1="730" y1="118" x2="730" y2="350" stroke="#e2e7ef" stroke-width="1.2" stroke-dasharray="4 4"/>
+  <line x1="990" y1="118" x2="990" y2="350" stroke="#e2e7ef" stroke-width="1.2" stroke-dasharray="4 4"/>
+  <text x="152" y="204" font-size="12" fill="#8a94a6" text-anchor="end">许可 = 1</text>
+  <text x="152" y="304" font-size="12" fill="#8a94a6" text-anchor="end">许可 = 0</text>
+  <path d="M170,300 H260 V200 H730 V300 H1150" fill="none" stroke="#1f7a4d" stroke-width="2.6" stroke-linejoin="round"/>
+  <circle cx="260" cy="200" r="4.5" fill="#1f7a4d"/>
+  <circle cx="730" cy="300" r="4.5" fill="#1f7a4d"/>
+  <line x1="474" y1="194" x2="486" y2="206" stroke="#b91c1c" stroke-width="2.4"/>
+  <line x1="486" y1="194" x2="474" y2="206" stroke="#b91c1c" stroke-width="2.4"/>
+  <line x1="260" y1="222" x2="730" y2="222" stroke="#1f7a4d" stroke-width="1.2" stroke-dasharray="5 4"/>
+  <line x1="260" y1="216" x2="260" y2="228" stroke="#1f7a4d" stroke-width="1.2"/>
+  <line x1="730" y1="216" x2="730" y2="228" stroke="#1f7a4d" stroke-width="1.2"/>
+  <text x="495.0" y="242" font-size="11.5" fill="#1f7a4d" text-anchor="middle">这张许可一直存着，直到 park 来取</text>
+  <text x="272" y="182" font-size="12.5" fill="#1f7a4d">① unpark(T)：0 → 1</text>
+  <text x="492" y="182" font-size="12.5" fill="#b45309">② unpark(T)：已是 1，第 2 张丢弃</text>
+  <text x="742" y="330" font-size="12.5" fill="#1f7a4d">③ park 有券：消费 → 立即返回（0 ms）</text>
+  <text x="1002" y="330" font-size="12.5" fill="#1b2a41">④ 无券：睡满 200 ms</text>
+  <text x="1002" y="352" font-size="11.5" fill="#b45309">实测 203 ms（醒来还要等调度）</text>
+  <text x="176" y="322" font-size="11.5" fill="#9aa4b2">初始：无券</text>
+  <line x1="170" y1="378" x2="1150" y2="378" stroke="#9aa4b2" stroke-width="1.1" marker-end="url(#agrey)"/>
+  <text x="1158" y="382" font-size="11" fill="#9aa4b2">执行顺序</text>
+  <text x="40" y="410" font-size="12" fill="#555">许可只有 0 和 1 两档：第二次 unpark 不会把槽位撑到 2；第二个 park 也拿不到半张券，只能睡满超时。</text>
+  <text x="40" y="432" font-size="11.5" fill="#999">图中 ③ 的“0 ms”和 ④ 的“200 ms”不是同一尺度：0 ms 意味着线程根本没有离开 CPU，200 ms 是 parkNanos 给的超时。</text>
+</svg>

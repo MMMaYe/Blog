@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="700" viewBox="0 0 1240 700" font-family="PingFang SC, STHeiti, Helvetica, Arial, sans-serif">
+  <title>AQS 分工图</title>
+  <defs><marker id="arw555" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#555"/></marker><marker id="arwblue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#2456a6"/></marker><marker id="arwgreen" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#1f7a4d"/></marker><marker id="arworange" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#b45309"/></marker><marker id="arwred" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#b91c1c"/></marker></defs>
+  <rect x="0" y="0" width="1240" height="700" fill="#ffffff"/>
+<text x="620.0" y="38" font-size="22" fill="#1b2a41" text-anchor="middle" font-weight="bold">AQS 的分工：骨架管排队与阻塞，子类管“什么算拿到”</text><text x="620.0" y="64" font-size="13" fill="#777" text-anchor="middle">换一套 tryAcquire / tryRelease，同一个 AQS 就变成锁、信号量或计数器</text>
+  <rect x="60" y="92" width="1120" height="118" rx="10" fill="#f7f9fc" stroke="#c9d3df" stroke-width="1.4"/>
+  <text x="84" y="118" font-size="15" fill="#2456a6" text-anchor="start" font-weight="bold">① 使用方：你直接 new 的类</text>
+  <rect x="84" y="140" width="140" height="48" rx="8" fill="#ffffff" stroke="#8fb0d6" stroke-width="1.5"/><text x="154.0" y="168.375" font-size="12.5" fill="#2456a6" text-anchor="middle">ReentrantLock</text>
+  <rect x="240" y="140" width="140" height="48" rx="8" fill="#ffffff" stroke="#8fb0d6" stroke-width="1.5"/><text x="310.0" y="168.375" font-size="12.5" fill="#2456a6" text-anchor="middle">Semaphore</text>
+  <rect x="396" y="140" width="141.0" height="48" rx="8" fill="#ffffff" stroke="#8fb0d6" stroke-width="1.5"/><text x="466.5" y="168.375" font-size="12.5" fill="#2456a6" text-anchor="middle">CountDownLatch</text>
+  <rect x="553.0" y="140" width="184.0" height="48" rx="8" fill="#ffffff" stroke="#8fb0d6" stroke-width="1.5"/><text x="645.0" y="168.375" font-size="12.5" fill="#2456a6" text-anchor="middle">ReentrantReadWriteLock</text>
+  <rect x="753.0" y="140" width="203.0" height="48" rx="8" fill="#ffffff" stroke="#8fb0d6" stroke-width="1.5"/><text x="854.5" y="168.375" font-size="12.5" fill="#2456a6" text-anchor="middle">ThreadPoolExecutor.Worker</text>
+  <line x1="620" y1="210" x2="620" y2="246" stroke="#555" stroke-width="1.8" marker-end="url(#arw555)"/>
+  <text x="634" y="234" font-size="12" fill="#555" text-anchor="start">调用 public 方法（lock / countDown / acquire …）</text>
+  <rect x="60" y="248" width="1120" height="238" rx="10" fill="#eef4ff" stroke="#7a9cc6" stroke-width="1.8"/>
+  <text x="84" y="276" font-size="15" fill="#1b3d6b" text-anchor="start" font-weight="bold">② AQS：模板方法的“骨架”（全部 final，你改不了）</text>
+  <text x="84" y="300" font-size="12.5" fill="#3b5b84" text-anchor="start">AbstractQueuedSynchronizer —— 只做三件事：记状态、排队、阻塞/唤醒</text>
+  <rect x="88" y="316" width="320" height="86" rx="8" fill="#ffffff" stroke="#7a9cc6" stroke-width="1.5"/><text x="248.0" y="354.125" font-size="12.5" fill="#1b2d45" text-anchor="middle" font-weight="bold">volatile int state</text><text x="248.0" y="372.625" font-size="12.5" fill="#1b2d45" text-anchor="middle">同步状态（含义由子类定义）</text>
+  <rect x="440" y="316" width="360" height="86" rx="8" fill="#ffffff" stroke="#7a9cc6" stroke-width="1.5"/><text x="620.0" y="354.125" font-size="12.5" fill="#1b2d45" text-anchor="middle" font-weight="bold">FIFO 双向队列（CLH 变体）</text><text x="620.0" y="372.625" font-size="12.5" fill="#1b2d45" text-anchor="middle">Node: prev / next / thread / waitStatus</text>
+  <rect x="832" y="316" width="320" height="86" rx="8" fill="#ffffff" stroke="#7a9cc6" stroke-width="1.5"/><text x="992.0" y="354.125" font-size="12.5" fill="#1b2d45" text-anchor="middle" font-weight="bold">LockSupport.park / unpark</text><text x="992.0" y="372.625" font-size="12.5" fill="#1b2d45" text-anchor="middle">真正让线程停下的底层原语</text>
+  <text x="620" y="436" font-size="12" fill="#3b5b84" text-anchor="middle">对外入口：acquire / release / acquireShared / releaseShared / acquireInterruptibly / tryAcquireNanos / ConditionObject</text>
+  <text x="620" y="462" font-size="12" fill="#6b7f96" text-anchor="middle">它们负责“重试、入队、阻塞、唤醒”的全部机械动作 —— 其中没有任何业务语义</text>
+  <line x1="330" y1="488" x2="330" y2="524" stroke="#b45309" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#arworange)"/>
+  <text x="344" y="512" font-size="12" fill="#b45309" text-anchor="start">调用你的 tryXxx（失败时）</text>
+  <line x1="910" y1="524" x2="910" y2="488" stroke="#1f7a4d" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#arwgreen)"/>
+  <text x="896" y="512" font-size="12" fill="#1f7a4d" text-anchor="end">用 CAS 改 state</text>
+  <rect x="60" y="526" width="1120" height="140" rx="10" fill="#f3fbf6" stroke="#8fc7a6" stroke-width="1.6"/>
+  <text x="84" y="554" font-size="15" fill="#1f7a4d" text-anchor="start" font-weight="bold">③ 子类 Sync：你必须实现的部分（默认抛 UnsupportedOperationException）</text>
+  <rect x="84" y="572" width="150" height="76" rx="8" fill="#ffffff" stroke="#8fc7a6" stroke-width="1.5"/><text x="159.0" y="605.125" font-size="12.5" fill="#1b3d2c" text-anchor="middle" font-weight="bold">tryAcquire</text><text x="159.0" y="623.625" font-size="12.5" fill="#1b3d2c" text-anchor="middle">独占：能不能拿</text>
+  <rect x="248" y="572" width="150" height="76" rx="8" fill="#ffffff" stroke="#8fc7a6" stroke-width="1.5"/><text x="323.0" y="605.125" font-size="12.5" fill="#1b3d2c" text-anchor="middle" font-weight="bold">tryRelease</text><text x="323.0" y="623.625" font-size="12.5" fill="#1b3d2c" text-anchor="middle">独占：怎么还</text>
+  <rect x="412" y="572" width="150" height="76" rx="8" fill="#ffffff" stroke="#8fc7a6" stroke-width="1.5"/><text x="487.0" y="605.125" font-size="12.5" fill="#1b3d2c" text-anchor="middle" font-weight="bold">tryAcquireShared</text><text x="487.0" y="623.625" font-size="12.5" fill="#1b3d2c" text-anchor="middle">共享：能不能拿</text>
+  <rect x="576" y="572" width="150" height="76" rx="8" fill="#ffffff" stroke="#8fc7a6" stroke-width="1.5"/><text x="651.0" y="605.125" font-size="12.5" fill="#1b3d2c" text-anchor="middle" font-weight="bold">tryReleaseShared</text><text x="651.0" y="623.625" font-size="12.5" fill="#1b3d2c" text-anchor="middle">共享：怎么还</text>
+  <rect x="740" y="572" width="150" height="76" rx="8" fill="#ffffff" stroke="#8fc7a6" stroke-width="1.5"/><text x="815.0" y="605.125" font-size="12.5" fill="#1b3d2c" text-anchor="middle" font-weight="bold">isHeldExclusively</text><text x="815.0" y="623.625" font-size="12.5" fill="#1b3d2c" text-anchor="middle">给 Condition 用</text>
+  <text x="620" y="690" font-size="12" fill="#666" text-anchor="middle">AQS 不知道“锁”“许可”“倒计时”是什么；它只知道 state 和队列。语义全部由这 5 个方法定义。</text>
+</svg>

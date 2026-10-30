@@ -122,7 +122,8 @@ export default defineConfig({
         collapsed: false,
         items: [
           { text: '并发编程基础理解', link: '/并发编程/并发编程基础理解' },
-          { text: 'Java多线程创建原理', link: '/并发编程/Java多线程创建原理' }
+          { text: 'Java多线程创建原理', link: '/并发编程/Java多线程创建原理' },
+          { text: 'JUC篇', link: '/并发编程/JUC篇' }
         ]
       },
       {

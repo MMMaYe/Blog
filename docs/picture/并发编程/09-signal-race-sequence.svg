@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="660" viewBox="0 0 1240 660" font-family="PingFang SC, Hiragino Sans GB, STHeiti, Helvetica, Arial, sans-serif">
+  <title>release 落进窗口：unpark 先于 park 到达</title>
+  <defs>
+    <marker id="ink" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#44506b"/>
+    </marker>
+    <marker id="blue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2456a6"/>
+    </marker>
+    <marker id="green" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#1f7a4d"/>
+    </marker>
+    <marker id="orange" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#b45309"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1240" height="660" fill="#ffffff"/>
+  <text x="620.0" y="40" font-size="22" fill="#1b2a41" text-anchor="middle" font-weight="bold">把 release 插进窗口：unpark 落在 park 之前</text>
+  <text x="620.0" y="66" font-size="13" fill="#777" text-anchor="middle">T1 持锁、T2 排队；② 之后、⑤ 之前，T2 已决定睡却还没睡下，④ 的唤醒正好落在这里</text>
+  <line x1="240" y1="150" x2="240" y2="575" stroke="#c9d1dc" stroke-width="1.3" stroke-dasharray="6 5"/>
+  <line x1="600" y1="150" x2="600" y2="575" stroke="#c9d1dc" stroke-width="1.3" stroke-dasharray="6 5"/>
+  <line x1="900" y1="150" x2="900" y2="575" stroke="#c9d1dc" stroke-width="1.3" stroke-dasharray="6 5"/>
+  <rect x="164" y="106" width="152" height="44" rx="8" fill="#ffffff" stroke="#1f7a4d" stroke-width="1.6"/>
+  <text x="240" y="126" font-size="13.5" fill="#1b2a41" text-anchor="middle" font-weight="bold">T1</text>
+  <text x="240" y="142" font-size="10.5" fill="#777" text-anchor="middle">持锁</text>
+  <rect x="524" y="106" width="152" height="44" rx="8" fill="#ffffff" stroke="#8a94a6" stroke-width="1.6"/>
+  <text x="600" y="126" font-size="13.5" fill="#1b2a41" text-anchor="middle" font-weight="bold">head 节点</text>
+  <text x="600" y="142" font-size="10.5" fill="#777" text-anchor="middle">哑节点 / waitStatus</text>
+  <rect x="824" y="106" width="152" height="44" rx="8" fill="#ffffff" stroke="#b45309" stroke-width="1.6"/>
+  <text x="900" y="126" font-size="13.5" fill="#1b2a41" text-anchor="middle" font-weight="bold">T2</text>
+  <text x="900" y="142" font-size="10.5" fill="#777" text-anchor="middle">排队中</text>
+  <path d="M900,196 h30 v18 h-30" fill="none" stroke="#44506b" stroke-width="1.6" marker-end="url(#ink)"/>
+  <text x="940" y="209" font-size="12.5" fill="#44506b">① tryAcquire 失败，入队到 head 后面</text>
+  <line x1="894" y1="258" x2="608" y2="258" stroke="#2456a6" stroke-width="1.7" marker-end="url(#blue)"/>
+  <text x="751.0" y="248" font-size="12.5" fill="#2456a6" text-anchor="middle">② waitStatus = SIGNAL</text>
+  <path d="M900,312 h30 v18 h-30" fill="none" stroke="#b45309" stroke-width="1.6" marker-end="url(#orange)"/>
+  <text x="940" y="325" font-size="12.5" fill="#b45309">③ 被调度切走（还没 park）</text>
+  <line x1="246" y1="372" x2="592" y2="372" stroke="#2456a6" stroke-width="1.7" stroke-dasharray="5 4" marker-end="url(#blue)"/>
+  <text x="419.0" y="362" font-size="12.5" fill="#2456a6" text-anchor="middle">④ 读 head.waitStatus</text>
+  <line x1="246" y1="432" x2="892" y2="432" stroke="#1f7a4d" stroke-width="1.7" marker-end="url(#green)"/>
+  <text x="470" y="422" font-size="12.5" fill="#1f7a4d" text-anchor="middle">④ unpark(T2)：唤醒先记成许可</text>
+  <path d="M900,492 h30 v18 h-30" fill="none" stroke="#1f7a4d" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#green)"/>
+  <text x="940" y="505" font-size="12.5" fill="#1f7a4d">⑤ park() 读到许可，立即返回</text>
+  <path d="M900,548 h30 v18 h-30" fill="none" stroke="#1f7a4d" stroke-width="1.6" marker-end="url(#green)"/>
+  <text x="940" y="561" font-size="12.5" fill="#1f7a4d">⑥ 前驱是 head，抢锁成功</text>
+  <rect x="964" y="250" width="0" height="0"/>
+  <line x1="962" y1="266" x2="962" y2="505" stroke="#b45309" stroke-width="1.2" stroke-dasharray="4 4"/>
+  <line x1="957" y1="266" x2="967" y2="266" stroke="#b45309" stroke-width="1.2"/>
+  <line x1="957" y1="505" x2="967" y2="505" stroke="#b45309" stroke-width="1.2"/>
+  <text x="970" y="389" font-size="11.5" fill="#b45309">危险窗口</text>
+  <text x="60" y="606" font-size="12.5" fill="#b45309">② 之后、⑤ 之前是危险窗口：T2 已经决定要睡，但还没走进 park()；④ 的 unpark 正好落在这里。</text>
+  <text x="60" y="630" font-size="12.5" fill="#b91c1c">若没有“许可可以预存”：这次唤醒打在空处，⑤ 的 park 照睡不误——锁已经释放，却没人接手。</text>
+</svg>

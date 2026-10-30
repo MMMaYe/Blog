@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="640" viewBox="0 0 1240 640" font-family="PingFang SC, Hiragino Sans GB, STHeiti, Helvetica, Arial, sans-serif">
+  <title>入队：addWaiter 快路径、enq 建哨兵、CAS 失败自旋，以及三笔写的顺序</title>
+  <defs>
+    <marker id="grey" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#8a94a6"/></marker>
+    <marker id="ink" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#44506b"/></marker>
+    <marker id="orange" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#b45309"/></marker>
+    <marker id="green" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#1f7a4d"/></marker>
+  </defs>
+  <rect x="0" y="0" width="1240" height="640" fill="#ffffff"/>
+  <text x="620.0" y="38" font-size="22" fill="#1b2a41" text-anchor="middle" font-weight="bold">一次入队：两条路径、三笔写</text>
+  <text x="620.0" y="64" font-size="13" fill="#777" text-anchor="middle">addWaiter 在队尾做一次 CAS；队尾为空或 CAS 落空，才进 enq 自旋</text>
+  <text x="620.0" y="88" font-size="10.5" fill="#8a94a6" text-anchor="middle">图例：灰框 = 已在队列中的节点（含哑 head）　绿框 = CAS 成功那一刻　橙框 = 新入队或正在入队　虚线 = 还没挂进队列　上箭头 = next　下箭头 = prev</text>
+  <rect x="40" y="100" width="370" height="286" rx="10" fill="#ffffff" stroke="#d7dee8" stroke-width="1.2"/>
+  <path d="M50,100 h350 a10,10 0 0 1 10,10 v26 h-370 v-26 a10,10 0 0 1 10,-10 z" fill="#f5f8fc"/>
+  <circle cx="66" cy="118" r="11" fill="#1f7a4d"/>
+  <text x="66" y="122" font-size="12" fill="#ffffff" text-anchor="middle" font-weight="bold">A</text>
+  <text x="86" y="123" font-size="12.5" fill="#1b2a41" text-anchor="start" font-weight="bold">快路径：一次 CAS 就挂上</text>
+  <text x="56" y="150" font-size="10.5" fill="#777" text-anchor="start">tail 不为空：addWaiter 自己搞定，不进 enq</text>
+  <text x="56" y="172" font-size="10" fill="#8a94a6">入队前</text>
+  <rect x="56" y="180" width="58" height="30" rx="6" fill="#ffffff" stroke="#8a94a6" stroke-width="1.5"/>
+  <text x="85" y="195" font-size="10" fill="#1b2a41" text-anchor="middle">哑 head</text>
+  <line x1="114" y1="186" x2="131" y2="186" stroke="#8a94a6" stroke-width="1.2" marker-end="url(#grey)"/>
+  <line x1="134" y1="199" x2="117" y2="199" stroke="#8a94a6" stroke-width="1.2" marker-end="url(#grey)"/>
+  <rect x="134" y="180" width="58" height="30" rx="6" fill="#ffffff" stroke="#8a94a6" stroke-width="1.5"/>
+  <text x="163" y="195" font-size="10" fill="#1b2a41" text-anchor="middle">T2</text>
+  <text x="198" y="200" font-size="9.5" fill="#b45309" text-anchor="start">tail</text>
+  <text x="236" y="200" font-size="9.5" fill="#777" text-anchor="start">（T3 还没进队）</text>
+  <text x="56" y="232" font-size="10" fill="#8a94a6">入队后</text>
+  <rect x="56" y="240" width="58" height="30" rx="6" fill="#ffffff" stroke="#8a94a6" stroke-width="1.5"/>
+  <text x="85" y="255" font-size="10" fill="#1b2a41" text-anchor="middle">哑 head</text>
+  <line x1="114" y1="246" x2="131" y2="246" stroke="#8a94a6" stroke-width="1.2" marker-end="url(#grey)"/>
+  <line x1="134" y1="259" x2="117" y2="259" stroke="#8a94a6" stroke-width="1.2" marker-end="url(#grey)"/>
+  <rect x="134" y="240" width="58" height="30" rx="6" fill="#ffffff" stroke="#8a94a6" stroke-width="1.5"/>
+  <text x="163" y="255" font-size="10" fill="#1b2a41" text-anchor="middle">T2</text>
+  <line x1="192" y1="246" x2="209" y2="246" stroke="#b45309" stroke-width="1.2" marker-end="url(#orange)"/>
+  <line x1="212" y1="259" x2="195" y2="259" stroke="#b45309" stroke-width="1.2" marker-end="url(#orange)"/>
+  <rect x="212" y="240" width="58" height="30" rx="6" fill="#ffffff" stroke="#b45309" stroke-width="1.5"/>
+  <text x="241" y="255" font-size="10" fill="#1b2a41" text-anchor="middle">T3</text>
+  <text x="276" y="260" font-size="9.5" fill="#b45309" text-anchor="start">tail</text>
+  <text x="56" y="300" font-size="11" fill="#1b2a41" text-anchor="start">① pred = tail —— 记下当前队尾 T2</text>
+  <text x="56" y="319" font-size="11" fill="#1b2a41" text-anchor="start">② node.prev = pred —— T3 的 prev 指向 T2</text>
+  <text x="56" y="338" font-size="11" fill="#1b2a41" text-anchor="start">③ CAS(tail: T2 → T3) ✓ —— 队尾换成 T3</text>
+  <text x="56" y="357" font-size="11" fill="#1b2a41" text-anchor="start">④ pred.next = node —— T2 的 next 指向 T3</text>
+  <rect x="434" y="100" width="370" height="286" rx="10" fill="#ffffff" stroke="#d7dee8" stroke-width="1.2"/>
+  <path d="M444,100 h350 a10,10 0 0 1 10,10 v26 h-370 v-26 a10,10 0 0 1 10,-10 z" fill="#f5f8fc"/>
+  <circle cx="460" cy="118" r="11" fill="#2456a6"/>
+  <text x="460" y="122" font-size="12" fill="#ffffff" text-anchor="middle" font-weight="bold">B</text>
+  <text x="480" y="123" font-size="12.5" fill="#1b2a41" text-anchor="start" font-weight="bold">队列没建：进 enq 转两圈</text>
+  <text x="450" y="150" font-size="10.5" fill="#777" text-anchor="start">pred == null：head、tail 都还是 null</text>
+  <text x="450" y="172" font-size="10" fill="#8a94a6">入队前</text>
+  <rect x="450" y="180" width="134" height="30" rx="6" fill="#ffffff" stroke="#8a94a6" stroke-width="1.2" stroke-dasharray="5 4"/>
+  <text x="517" y="199" font-size="9.5" fill="#8a94a6" text-anchor="middle">head = tail = null</text>
+  <text x="594" y="199" font-size="9.5" fill="#777" text-anchor="start">队列根本不存在</text>
+  <text x="450" y="232" font-size="10" fill="#8a94a6">入队后</text>
+  <rect x="450" y="240" width="58" height="30" rx="6" fill="#ffffff" stroke="#8a94a6" stroke-width="1.5"/>
+  <text x="479" y="255" font-size="10" fill="#1b2a41" text-anchor="middle">哑 head</text>
+  <line x1="508" y1="246" x2="525" y2="246" stroke="#8a94a6" stroke-width="1.2" marker-end="url(#grey)"/>
+  <line x1="528" y1="259" x2="511" y2="259" stroke="#8a94a6" stroke-width="1.2" marker-end="url(#grey)"/>
+  <rect x="528" y="240" width="58" height="30" rx="6" fill="#ffffff" stroke="#b45309" stroke-width="1.5"/>
+  <text x="557" y="255" font-size="10" fill="#1b2a41" text-anchor="middle">T2</text>
+  <text x="592" y="260" font-size="9.5" fill="#b45309" text-anchor="start">tail</text>
+  <text x="450" y="300" font-size="11" fill="#1b2a41" text-anchor="start">圈 1：t == null → CAS(head: null → new Node()) ✓</text>
+  <text x="450" y="319" font-size="11" fill="#1b2a41" text-anchor="start">　　　tail = head —— 哨兵建好，队列成形</text>
+  <text x="450" y="338" font-size="11" fill="#1b2a41" text-anchor="start">圈 2：node.prev = t → CAS(tail: t → node) ✓</text>
+  <text x="450" y="357" font-size="11" fill="#1b2a41" text-anchor="start">　　　t.next = node —— 这时才真正入队</text>
+  <rect x="828" y="100" width="370" height="286" rx="10" fill="#ffffff" stroke="#d7dee8" stroke-width="1.2"/>
+  <path d="M838,100 h350 a10,10 0 0 1 10,10 v26 h-370 v-26 a10,10 0 0 1 10,-10 z" fill="#f5f8fc"/>
+  <circle cx="854" cy="118" r="11" fill="#b45309"/>
+  <text x="854" y="122" font-size="12" fill="#ffffff" text-anchor="middle" font-weight="bold">C</text>
+  <text x="874" y="123" font-size="12.5" fill="#1b2a41" text-anchor="start" font-weight="bold">CAS 失败：enq 自旋重试</text>
+  <text x="844" y="150" font-size="10.5" fill="#777" text-anchor="start">T3、T4 同时入队：T3 先赢，T4 的 CAS 落空</text>
+  <text x="844" y="172" font-size="10" fill="#8a94a6">入队前（tail = T2，T3 与 T4 都读到它）</text>
+  <rect x="844" y="180" width="58" height="30" rx="6" fill="#ffffff" stroke="#8a94a6" stroke-width="1.5"/>
+  <text x="873" y="195" font-size="10" fill="#1b2a41" text-anchor="middle">哑 head</text>
+  <line x1="902" y1="186" x2="919" y2="186" stroke="#8a94a6" stroke-width="1.2" marker-end="url(#grey)"/>
+  <line x1="922" y1="199" x2="905" y2="199" stroke="#8a94a6" stroke-width="1.2" marker-end="url(#grey)"/>
+  <rect x="922" y="180" width="58" height="30" rx="6" fill="#ffffff" stroke="#8a94a6" stroke-width="1.5"/>
+  <text x="951" y="195" font-size="10" fill="#1b2a41" text-anchor="middle">T2</text>
+  <rect x="1000" y="180" width="58" height="30" rx="6" fill="#ffffff" stroke="#b45309" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="1029" y="195" font-size="10" fill="#1b2a41" text-anchor="middle">T3?</text>
+  <rect x="1000" y="214" width="58" height="30" rx="6" fill="#ffffff" stroke="#b45309" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="1029" y="229" font-size="10" fill="#1b2a41" text-anchor="middle">T4?</text>
+  <text x="1062" y="232" font-size="9" fill="#b45309">都在 CAS</text>
+  <text x="844" y="248" font-size="10" fill="#8a94a6">入队后</text>
+  <rect x="844" y="256" width="58" height="30" rx="6" fill="#ffffff" stroke="#8a94a6" stroke-width="1.5"/>
+  <text x="873" y="271" font-size="10" fill="#1b2a41" text-anchor="middle">哑 head</text>
+  <line x1="902" y1="262" x2="919" y2="262" stroke="#8a94a6" stroke-width="1.2" marker-end="url(#grey)"/>
+  <line x1="922" y1="275" x2="905" y2="275" stroke="#8a94a6" stroke-width="1.2" marker-end="url(#grey)"/>
+  <rect x="922" y="256" width="58" height="30" rx="6" fill="#ffffff" stroke="#8a94a6" stroke-width="1.5"/>
+  <text x="951" y="271" font-size="10" fill="#1b2a41" text-anchor="middle">T2</text>
+  <line x1="980" y1="262" x2="997" y2="262" stroke="#1f7a4d" stroke-width="1.2" marker-end="url(#green)"/>
+  <line x1="1000" y1="275" x2="983" y2="275" stroke="#1f7a4d" stroke-width="1.2" marker-end="url(#green)"/>
+  <rect x="1000" y="256" width="58" height="30" rx="6" fill="#ffffff" stroke="#1f7a4d" stroke-width="1.5"/>
+  <text x="1029" y="271" font-size="10" fill="#1b2a41" text-anchor="middle">T3</text>
+  <line x1="1058" y1="262" x2="1075" y2="262" stroke="#b45309" stroke-width="1.2" marker-end="url(#orange)"/>
+  <line x1="1078" y1="275" x2="1061" y2="275" stroke="#b45309" stroke-width="1.2" marker-end="url(#orange)"/>
+  <rect x="1078" y="256" width="58" height="30" rx="6" fill="#ffffff" stroke="#b45309" stroke-width="1.5"/>
+  <text x="1107" y="271" font-size="10" fill="#1b2a41" text-anchor="middle">T4</text>
+  <text x="1140" y="276" font-size="9.5" fill="#b45309" text-anchor="start">tail</text>
+  <text x="844" y="300" font-size="11" fill="#1b2a41" text-anchor="start">T3：CAS(tail: T2 → T3) ✓ —— 成功，返回</text>
+  <text x="844" y="319" font-size="11" fill="#1b2a41" text-anchor="start">T4：CAS(tail: T2 → T4) ✗ —— tail 已是 T3</text>
+  <text x="844" y="338" font-size="11" fill="#1b2a41" text-anchor="start">↻ 回到 for (;;)，重读 t = tail（现在是 T3）</text>
+  <text x="844" y="357" font-size="11" fill="#1b2a41" text-anchor="start">T4：node.prev = T3 → CAS ✓ —— 多转一圈，节点不丢</text>
+  <text x="620.0" y="414" font-size="13.5" fill="#1b2a41" text-anchor="middle" font-weight="bold">三笔写的顺序：入队是在 ② 那一刻“公开”的</text>
+  <rect x="41.0" y="426" width="370" height="86" rx="8" fill="#ffffff" stroke="#8a94a6" stroke-opacity="0.55" stroke-width="1.3"/>
+  <circle cx="61.0" cy="447" r="10" fill="#8a94a6"/>
+  <text x="61.0" y="451" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="bold">①</text>
+  <text x="79.0" y="452" font-size="11.5" fill="#8a94a6" text-anchor="start" font-weight="bold">node.prev = t</text>
+  <text x="57.0" y="476" font-size="10.5" fill="#555" text-anchor="start">普通写。此刻只有本线程</text>
+  <text x="57.0" y="494" font-size="10.5" fill="#555" text-anchor="start">知道自己的前驱是谁。</text>
+  <line x1="413.0" y1="469" x2="431.0" y2="469" stroke="#8a94a6" stroke-width="1.4" marker-end="url(#grey)"/>
+  <rect x="435.0" y="426" width="370" height="86" rx="8" fill="#ffffff" stroke="#1f7a4d" stroke-opacity="0.55" stroke-width="1.3"/>
+  <circle cx="455.0" cy="447" r="10" fill="#1f7a4d"/>
+  <text x="455.0" y="451" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="bold">②</text>
+  <text x="473.0" y="452" font-size="11.5" fill="#1f7a4d" text-anchor="start" font-weight="bold">CAS(tail: t → node)</text>
+  <text x="451.0" y="476" font-size="10.5" fill="#555" text-anchor="start">成功那一刻入队完成：从 tail</text>
+  <text x="451.0" y="494" font-size="10.5" fill="#555" text-anchor="start">往回走，链一定完整。</text>
+  <line x1="807.0" y1="469" x2="825.0" y2="469" stroke="#8a94a6" stroke-width="1.4" marker-end="url(#grey)"/>
+  <rect x="829.0" y="426" width="370" height="86" rx="8" fill="#ffffff" stroke="#b45309" stroke-opacity="0.55" stroke-width="1.3"/>
+  <circle cx="849.0" cy="447" r="10" fill="#b45309"/>
+  <text x="849.0" y="451" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="bold">③</text>
+  <text x="867.0" y="452" font-size="11.5" fill="#b45309" text-anchor="start" font-weight="bold">t.next = node</text>
+  <text x="845.0" y="476" font-size="10.5" fill="#555" text-anchor="start">普通写，可能晚一拍：从 head</text>
+  <text x="845.0" y="494" font-size="10.5" fill="#555" text-anchor="start">往后走，链可能还是断的。</text>
+  <rect x="40" y="536" width="1160" height="62" rx="8" fill="#2456a6" fill-opacity="0.06" stroke="#2456a6" stroke-opacity="0.3"/>
+  <text x="56" y="560" font-size="12" fill="#2456a6" text-anchor="start">所以唤醒只能从 tail 反向扫：unparkSuccessor 读的是 s.prev，而不是 head.next（2.3.7）。</text>
+  <text x="56" y="582" font-size="11" fill="#555" text-anchor="start">① 和 ③ 都是普通写，不保证别的线程马上看得见；只有 ② 的 CAS 是“入队”这个事实的分界线。</text>
+</svg>

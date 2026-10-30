@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="640" viewBox="0 0 1240 640" font-family="PingFang SC, STHeiti, Helvetica, Arial, sans-serif">
+  <title>AQS 学习顺序图</title>
+  <defs>
+    <marker id="arw555" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#555"/></marker>
+    <marker id="arwblue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#2456a6"/></marker>
+    <marker id="arwgreen" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#1f7a4d"/></marker>
+    <marker id="arworange" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#b45309"/></marker>
+  </defs>
+  <rect x="0" y="0" width="1240" height="640" fill="#ffffff"/>
+<text x="620" y="42" font-size="22" fill="#1b2a41" text-anchor="middle" font-weight="bold">学习顺序：每一层只依赖上一层</text>
+<text x="620" y="70" font-size="13" fill="#777" text-anchor="middle">先学被依赖的机制，再学使用它的类；顺序错了，后面的源码就只剩背诵</text>
+<rect x="70" y="120" width="320" height="176" rx="8" fill="#eef4ff" stroke="#7a9cc6" stroke-width="1.8"/>
+<text x="230" y="160" font-size="17" fill="#1b3d6b" text-anchor="middle" font-weight="bold">① LockSupport</text>
+<text x="230" y="192" font-size="13.5" fill="#33475f" text-anchor="middle">park / unpark</text>
+<text x="230" y="228" font-size="12.5" fill="#5a6b80" text-anchor="middle">线程怎么停下来、怎么被叫醒</text>
+<rect x="180" y="248" width="100" height="28" rx="14" fill="#ffffff" stroke="#7a9cc6" stroke-width="1.2"/>
+<text x="230" y="267" font-size="12" fill="#1b3d6b" text-anchor="middle">第 1 章</text>
+<rect x="460" y="120" width="320" height="176" rx="8" fill="#eef4ff" stroke="#7a9cc6" stroke-width="1.8"/>
+<text x="620" y="160" font-size="17" fill="#1b3d6b" text-anchor="middle" font-weight="bold">② AQS</text>
+<text x="620" y="192" font-size="13.5" fill="#33475f" text-anchor="middle">state + 队列 + park</text>
+<text x="620" y="228" font-size="12.5" fill="#5a6b80" text-anchor="middle">把“抢不到就排队”写成骨架</text>
+<rect x="570" y="248" width="100" height="28" rx="14" fill="#ffffff" stroke="#7a9cc6" stroke-width="1.2"/>
+<text x="620" y="267" font-size="12" fill="#1b3d6b" text-anchor="middle">第 2 章</text>
+<rect x="850" y="120" width="320" height="176" rx="8" fill="#f3fbf6" stroke="#8fc7a6" stroke-width="1.8"/>
+<text x="1010" y="160" font-size="17" fill="#1f5f3d" text-anchor="middle" font-weight="bold">③ ReentrantLock</text>
+<text x="1010" y="192" font-size="13.5" fill="#33475f" text-anchor="middle">Sync / NonfairSync / FairSync</text>
+<text x="1010" y="228" font-size="12.5" fill="#5a6b80" text-anchor="middle">第一把真正的锁：重入 + 公平</text>
+<rect x="960" y="248" width="100" height="28" rx="14" fill="#ffffff" stroke="#8fc7a6" stroke-width="1.2"/>
+<text x="1010" y="267" font-size="12" fill="#1f5f3d" text-anchor="middle">第 3 章</text>
+<rect x="850" y="360" width="320" height="176" rx="8" fill="#fff8ec" stroke="#e0b372" stroke-width="1.8"/>
+<text x="1010" y="400" font-size="17" fill="#8a5312" text-anchor="middle" font-weight="bold">④ Condition</text>
+<text x="1010" y="432" font-size="13.5" fill="#33475f" text-anchor="middle">ConditionObject</text>
+<text x="1010" y="468" font-size="12.5" fill="#5a6b80" text-anchor="middle">一把锁挂多个等待集</text>
+<rect x="960" y="488" width="100" height="28" rx="14" fill="#ffffff" stroke="#e0b372" stroke-width="1.2"/>
+<text x="1010" y="507" font-size="12" fill="#8a5312" text-anchor="middle">第 4 章</text>
+<rect x="460" y="360" width="320" height="176" rx="8" fill="#f3fbf6" stroke="#8fc7a6" stroke-width="1.8"/>
+<text x="620" y="400" font-size="17" fill="#1f5f3d" text-anchor="middle" font-weight="bold">⑤ ReentrantReadWriteLock</text>
+<text x="620" y="432" font-size="13.5" fill="#33475f" text-anchor="middle">读锁 / 写锁 / 锁降级</text>
+<text x="620" y="468" font-size="12.5" fill="#5a6b80" text-anchor="middle">读写分离：一个 int 塞两个计数</text>
+<rect x="570" y="488" width="100" height="28" rx="14" fill="#ffffff" stroke="#8fc7a6" stroke-width="1.2"/>
+<text x="620" y="507" font-size="12" fill="#1f5f3d" text-anchor="middle">第 5 章</text>
+<rect x="70" y="360" width="320" height="176" rx="8" fill="#f7f2ff" stroke="#b096d8" stroke-width="1.8"/>
+<text x="230" y="400" font-size="17" fill="#5b3f86" text-anchor="middle" font-weight="bold">⑥ StampedLock</text>
+<text x="230" y="432" font-size="13.5" fill="#33475f" text-anchor="middle">乐观读 + stamp</text>
+<text x="230" y="468" font-size="12.5" fill="#5a6b80" text-anchor="middle">读写锁的替代方案，但不能重入</text>
+<rect x="180" y="488" width="100" height="28" rx="14" fill="#ffffff" stroke="#b096d8" stroke-width="1.2"/>
+<text x="230" y="507" font-size="12" fill="#5b3f86" text-anchor="middle">第 6 章</text>
+<line x1="394" y1="208" x2="454" y2="208" stroke="#2456a6" stroke-width="1.8" marker-end="url(#arwblue)"/>
+<line x1="784" y1="208" x2="844" y2="208" stroke="#2456a6" stroke-width="1.8" marker-end="url(#arwblue)"/>
+<line x1="1010" y1="300" x2="1010" y2="354" stroke="#2456a6" stroke-width="1.8" marker-end="url(#arwblue)"/>
+<line x1="846" y1="448" x2="786" y2="448" stroke="#b45309" stroke-width="1.8" marker-end="url(#arworange)"/>
+<line x1="456" y1="448" x2="396" y2="448" stroke="#b45309" stroke-width="1.8" marker-end="url(#arworange)"/>
+<text x="1024" y="332" font-size="12" fill="#2456a6" text-anchor="start">锁有了，才谈等待集</text>
+<text x="816" y="424" font-size="12" fill="#b45309" text-anchor="middle">同一套 AQS 骨架</text>
+<text x="426" y="424" font-size="12" fill="#b45309" text-anchor="middle">都是“读多写少”的解法</text>
+<rect x="70" y="566" width="1100" height="46" rx="8" fill="#f7f9fc" stroke="#c9d3df" stroke-width="1.2"/>
+<text x="620" y="594" font-size="12.5" fill="#3b5b84" text-anchor="middle">读法：每章先看“结论”，再看源码，最后跑一个最小例子；不要从第 6 章倒着读。</text>
+</svg>
