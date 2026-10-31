@@ -127,6 +127,13 @@ export default defineConfig({
         ]
       },
       {
+        text: '问题排查总结',
+        collapsed: false,
+        items: [
+          { text: '线上问题的一些梳理', link: '/问题排查总结/线上问题的一些梳理' }
+        ]
+      },
+      {
         text: '项目',
         collapsed: false,
         items: [
