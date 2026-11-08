@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 470" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif">
+  <defs>
+    <marker id="arrX" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#374151"/>
+    </marker>
+    <marker id="arrY" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#374151"/>
+    </marker>
+  </defs>
+
+  <rect width="920" height="470" fill="#ffffff"/>
+
+  <!-- 标题 -->
+  <text x="460" y="32" text-anchor="middle" font-size="19" font-weight="700" fill="#111827">压测找拐点：固定流量、逐步调大线程数，盯两条曲线</text>
+  <text x="460" y="54" text-anchor="middle" font-size="12" fill="#6b7280">横轴：池线程数（从公式初值起每档一调）　纵轴：吞吐（左）与 P99 延迟（右）</text>
+
+  <!-- ===== 左图：吞吐 ===== -->
+  <!-- 拐点区间（橙带） -->
+  <rect x="300" y="100" width="72" height="280" fill="#f59e0b" fill-opacity="0.12"/>
+  <line x1="300" y1="100" x2="300" y2="380" stroke="#d97706" stroke-width="1" stroke-dasharray="4 3"/>
+  <line x1="372" y1="100" x2="372" y2="380" stroke="#d97706" stroke-width="1" stroke-dasharray="4 3"/>
+  <text x="336" y="118" text-anchor="middle" font-size="12" font-weight="600" fill="#b45309">拐点区间</text>
+
+  <!-- 坐标轴 -->
+  <line x1="90" y1="380" x2="450" y2="380" stroke="#374151" stroke-width="1.5" marker-end="url(#arrX)"/>
+  <line x1="90" y1="380" x2="90" y2="95" stroke="#374151" stroke-width="1.5" marker-end="url(#arrY)"/>
+  <text x="270" y="415" text-anchor="middle" font-size="13" fill="#374151">线程数（从初值逐步调大）</text>
+  <text x="95" y="88" font-size="13" font-weight="600" fill="#2563eb">吞吐（QPS）</text>
+
+  <!-- 吞吐曲线：升 → 转平 → 微降 -->
+  <path d="M 95 374 C 140 366, 195 330, 240 225 C 275 140, 320 108, 365 103 C 395 100, 420 106, 448 120"
+        fill="none" stroke="#2563eb" stroke-width="2.5"/>
+
+  <!-- 峰值点（极值点） -->
+  <circle cx="365" cy="103" r="4" fill="#2563eb"/>
+  <text x="355" y="74" text-anchor="middle" font-size="12" fill="#111827">吞吐峰值：f′ 由正转零/负</text>
+  <text x="355" y="90" text-anchor="middle" font-size="12" fill="#111827">（极值点）</text>
+
+  <!-- 导数注记 -->
+  <text x="150" y="288" text-anchor="middle" font-size="12" fill="#6b7280">f′ &gt; 0：加线程，吞吐跟着涨</text>
+  <text x="352" y="145" font-size="12" fill="#6b7280">f′ ≈ 0 / 负：</text>
+  <text x="352" y="162" font-size="12" fill="#6b7280">无增益甚至回落</text>
+
+  <!-- 最优线程数 -->
+  <line x1="289" y1="100" x2="289" y2="380" stroke="#059669" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <circle cx="289" cy="144" r="4" fill="#059669"/>
+  <text x="281" y="118" text-anchor="end" font-size="12" font-weight="600" fill="#059669">最优线程数</text>
+  <text x="281" y="135" text-anchor="end" font-size="11" fill="#059669">（拐点左侧，宁欠勿过）</text>
+
+  <!-- ===== 右图：P99 延迟 ===== -->
+  <!-- 拐点区间（橙带） -->
+  <rect x="740" y="100" width="72" height="280" fill="#f59e0b" fill-opacity="0.12"/>
+  <line x1="740" y1="100" x2="740" y2="380" stroke="#d97706" stroke-width="1" stroke-dasharray="4 3"/>
+  <line x1="812" y1="100" x2="812" y2="380" stroke="#d97706" stroke-width="1" stroke-dasharray="4 3"/>
+  <text x="776" y="118" text-anchor="middle" font-size="12" font-weight="600" fill="#b45309">拐点区间</text>
+
+  <!-- 坐标轴 -->
+  <line x1="530" y1="380" x2="890" y2="380" stroke="#374151" stroke-width="1.5" marker-end="url(#arrX)"/>
+  <line x1="530" y1="380" x2="530" y2="95" stroke="#374151" stroke-width="1.5" marker-end="url(#arrY)"/>
+  <text x="710" y="415" text-anchor="middle" font-size="13" fill="#374151">线程数（从初值逐步调大）</text>
+  <text x="535" y="88" font-size="13" font-weight="600" fill="#dc2626">P99 延迟（ms）</text>
+
+  <!-- 延迟曲线：缓增 → 陡增 -->
+  <path d="M 535 374 C 575 366, 660 358, 755 353 C 800 349, 845 300, 878 170"
+        fill="none" stroke="#dc2626" stroke-width="2.5"/>
+
+  <!-- 拐点（二阶导变号处） -->
+  <circle cx="755" cy="353" r="4" fill="#dc2626"/>
+  <text x="748" y="322" text-anchor="end" font-size="12" fill="#111827">f″ 变号处（数学上真正的拐点）</text>
+
+  <!-- 导数注记 -->
+  <text x="615" y="342" text-anchor="middle" font-size="12" fill="#6b7280">f″ ≤ 0：缓增</text>
+  <text x="776" y="200" text-anchor="middle" font-size="12" fill="#6b7280">f″ &gt; 0：陡增</text>
+  <text x="776" y="218" text-anchor="middle" font-size="11" fill="#6b7280">（上下文切换开始还债）</text>
+
+  <!-- 底部术语注 -->
+  <text x="460" y="446" text-anchor="middle" font-size="12" fill="#6b7280">注：工程口语的「拐点」混用两个数学概念——吞吐峰值是 f′ 变号（极值点，「左右一阶导正负相反」说的是它）；延迟转折是 f″ 变号（一阶导始终为正，斜率由减变增）。</text>
+  <text x="460" y="463" text-anchor="middle" font-size="12" fill="#6b7280">工程上不必纠结术语：取「性能开始恶化」的转折区间，最优线程数落在它左侧。</text>
+</svg>

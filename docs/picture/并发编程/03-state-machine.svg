@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 540" role="img" aria-label="ThreadPoolExecutor 五状态机流转图" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Segoe UI', 'Microsoft YaHei', sans-serif">
+  <style>
+    .bg { fill: #ffffff; }
+    .n-title { font-size: 15px; font-weight: 700; fill: #1f2329; }
+    .n-desc { font-size: 11.5px; fill: #6b7280; }
+    .ctl-tag { font-size: 11px; fill: #6b7280; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .cap-text { font-size: 12px; fill: #6b7280; }
+    .legend-text { font-size: 11.5px; fill: #6b7280; }
+    .e-g { stroke: #149c5c; stroke-width: 2; fill: none; stroke-linecap: round; }
+    .e-r { stroke: #e0413f; stroke-width: 2; fill: none; stroke-linecap: round; }
+    .e-n { stroke: #6b7280; stroke-width: 2; fill: none; stroke-linecap: round; }
+    .node { fill: #ffffff; stroke: #e3e6ea; stroke-width: 1.5; }
+    .node-running { fill: #e7f6ee; stroke: #149c5c; stroke-width: 1.5; }
+    .node-stop { fill: #fdeeed; stroke: #e0413f; stroke-width: 1.5; }
+    .node-inner { fill: none; stroke: #e3e6ea; }
+    .cap { fill: #ffffff; stroke: #e3e6ea; }
+    .mk-g { fill: #149c5c; }
+    .mk-r { fill: #e0413f; }
+    .mk-n { fill: #6b7280; }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #22262d; }
+      .n-title { fill: #e9ebef; }
+      .n-desc { fill: #9aa3b2; }
+      .ctl-tag { fill: #9aa3b2; }
+      .cap-text { fill: #9aa3b2; }
+      .legend-text { fill: #9aa3b2; }
+      .e-g { stroke: #2bb673; }
+      .e-r { stroke: #f26d6b; }
+      .e-n { stroke: #9aa3b2; }
+      .node { fill: #22262d; stroke: #3c434d; }
+      .node-running { fill: rgba(43,182,115,0.14); stroke: #2bb673; }
+      .node-stop { fill: rgba(242,109,107,0.13); stroke: #f26d6b; }
+      .node-inner { stroke: #3c434d; }
+      .cap { fill: #22262d; stroke: #3c434d; }
+      .mk-g { fill: #2bb673; }
+      .mk-r { fill: #f26d6b; }
+      .mk-n { fill: #9aa3b2; }
+    }
+  </style>
+  <defs>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="mk-g"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="mk-r"/>
+    </marker>
+    <marker id="arr-n" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="mk-n"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="720" height="540" rx="12"/>
+
+  <!-- 连接线：绿 = shutdown() 温和路径，红 = shutdownNow() 强制路径，灰 = 自然收尾 -->
+  <path class="e-g" d="M 190 88 L 190 142" marker-end="url(#arr-g)"/>
+  <path class="e-g" d="M 190 208 L 190 262" marker-end="url(#arr-g)"/>
+  <path class="e-g" d="M 190 328 L 190 382" marker-end="url(#arr-g)"/>
+  <path class="e-r" d="M 270 56 C 400 56, 505 130, 505 262" marker-end="url(#arr-r)"/>
+  <path class="e-r" d="M 270 176 C 380 176, 555 185, 557 262" marker-end="url(#arr-r)"/>
+  <path class="e-n" d="M 460 296 L 276 296" marker-end="url(#arr-n)"/>
+
+  <!-- 迁移条件胶囊 -->
+  <rect class="cap" x="206" y="104" width="88" height="24" rx="12"/>
+  <text class="cap-text" x="250" y="120" text-anchor="middle">shutdown()</text>
+  <rect class="cap" x="206" y="224" width="118" height="24" rx="12"/>
+  <text class="cap-text" x="265" y="240" text-anchor="middle">队列和池都空了</text>
+  <rect class="cap" x="206" y="344" width="118" height="24" rx="12"/>
+  <text class="cap-text" x="265" y="360" text-anchor="middle">terminated() 完成</text>
+  <rect class="cap" x="310" y="122" width="112" height="24" rx="12"/>
+  <text class="cap-text" x="366" y="138" text-anchor="middle">shutdownNow()</text>
+  <rect class="cap" x="336" y="200" width="112" height="24" rx="12"/>
+  <text class="cap-text" x="392" y="216" text-anchor="middle">shutdownNow()</text>
+  <rect class="cap" x="352" y="264" width="52" height="22" rx="11"/>
+  <text class="cap-text" x="378" y="279" text-anchor="middle">池空</text>
+
+  <!-- ctl 高 3 位注释 -->
+  <text class="ctl-tag" x="102" y="60" text-anchor="end">-1 &lt;&lt; 29</text>
+  <text class="ctl-tag" x="102" y="180" text-anchor="end">0 &lt;&lt; 29</text>
+  <text class="ctl-tag" x="102" y="300" text-anchor="end">2 &lt;&lt; 29</text>
+  <text class="ctl-tag" x="102" y="420" text-anchor="end">3 &lt;&lt; 29</text>
+  <text class="ctl-tag" x="450" y="258" text-anchor="end">1 &lt;&lt; 29</text>
+
+  <!-- 状态节点 -->
+  <rect class="node-running" x="110" y="24" width="160" height="64" rx="10"/>
+  <text class="n-title" x="190" y="51" text-anchor="middle">RUNNING</text>
+  <text class="n-desc" x="190" y="71" text-anchor="middle">接新任务，处理队列</text>
+
+  <rect class="node" x="110" y="144" width="160" height="64" rx="10"/>
+  <text class="n-title" x="190" y="171" text-anchor="middle">SHUTDOWN</text>
+  <text class="n-desc" x="190" y="191" text-anchor="middle">不接新任务，跑完队列</text>
+
+  <rect class="node" x="110" y="264" width="160" height="64" rx="10"/>
+  <text class="n-title" x="190" y="291" text-anchor="middle">TIDYING</text>
+  <text class="n-desc" x="190" y="311" text-anchor="middle">任务全终止，线程数=0</text>
+
+  <rect class="node" x="110" y="384" width="160" height="64" rx="32"/>
+  <rect class="node-inner" x="116" y="390" width="148" height="52" rx="26"/>
+  <text class="n-title" x="190" y="411" text-anchor="middle">TERMINATED</text>
+  <text class="n-desc" x="190" y="431" text-anchor="middle">terminated() 已完成</text>
+
+  <rect class="node-stop" x="460" y="264" width="150" height="64" rx="10"/>
+  <text class="n-title" x="535" y="291" text-anchor="middle">STOP</text>
+  <text class="n-desc" x="535" y="311" text-anchor="middle">丢队列，中断在跑任务</text>
+
+  <!-- 图例 -->
+  <path class="e-g" d="M 40 480 L 70 480"/>
+  <text class="legend-text" x="80" y="484">shutdown() 温和：不接新任务，跑完已入队任务（只中断空闲线程）</text>
+  <path class="e-r" d="M 40 504 L 70 504"/>
+  <text class="legend-text" x="80" y="508">shutdownNow() 强制：丢弃队列，中断正在跑的任务</text>
+  <path class="e-n" d="M 40 528 L 70 528"/>
+  <text class="legend-text" x="80" y="532">收尾：队列与线程全部清空 → TIDYING → terminated() → TERMINATED</text>
+</svg>
